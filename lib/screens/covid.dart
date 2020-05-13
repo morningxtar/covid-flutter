@@ -1,4 +1,4 @@
-import 'package:covid19stat/screens/statistiques/first-statistique.dart';
+import 'package:covid19stat/screens/statistiques/statistiques.dart';
 import 'package:flutter/material.dart';
 
 ThemeData appTheme = ThemeData(
