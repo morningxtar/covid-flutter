@@ -1,20 +1,19 @@
 import 'package:covid19stat/screens/appbar.dart';
 import 'package:covid19stat/screens/drawer.dart' as prefix0;
-import 'package:covid19stat/screens/statistiques/first%20stat%20slide.dart';
-import 'package:covid19stat/screens/statistiques/second%20stat%20slide.dart';
-import 'package:covid19stat/screens/statistiques/third%20stat%20slide.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:sticky_headers/sticky_headers/widget.dart';
 
 
+class Notifications extends StatefulWidget {
+  static final String routeName = 'notification';
 
-class Statistiques extends StatefulWidget {
+  Notifications();
+
   @override
-  StatistiqueState createState() => StatistiqueState();
+  NotificationState createState() => NotificationState();
 }
 
-class StatistiqueState extends State<Statistiques> {
+class NotificationState extends State<Notifications> {
   final GlobalKey<ScaffoldState> _globalKey = new GlobalKey<ScaffoldState>();
   PageController _controller = PageController(
     initialPage: 0,
@@ -31,7 +30,7 @@ class StatistiqueState extends State<Statistiques> {
     super.initState();
   }
 
-  Widget Statistique() {
+  Widget notification() {
     ScreenUtil.instance = ScreenUtil.getInstance()
       ..init(context);
     ScreenUtil.instance =
@@ -42,9 +41,7 @@ class StatistiqueState extends State<Statistiques> {
       body: new PageView(
         controller: _controller,
         children: [
-          firstStatistiquePage(context),
-          secondStatistiquePage(context),
-          thirdStatistiquePage(context),
+
         ],
       ),
     );
@@ -60,9 +57,9 @@ class StatistiqueState extends State<Statistiques> {
   Widget build(BuildContext context) {
     return new Scaffold(
       key: _globalKey,
-      appBar: appbar('Statistique'),
+      appBar: appbar('Notification'),
       drawer: prefix0.drawer(context),
-      body: Statistique(),
+      body: Notifications(),
     );
   }
 }
