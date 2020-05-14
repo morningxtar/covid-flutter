@@ -26,6 +26,8 @@ dependencies:
   flutter_swiper: ^1.1.6
   flutter_screenutil: ^0.4.2
   sticky_headers: ^0.1.8
+  step_progress_indicator: ^0.2.2+5
+  google_maps_flutter: ^0.5.27+3
 
 dev_dependencies:
   flutter_test:
@@ -49,9 +51,11 @@ flutter:
     - assets/images/standorange.jpg
     - assets/images/standgreen.jpg
     - assets/images/standblack.jpg
+    - assets/images/standorangefemale.jpg
     - assets/images/echantil.jpg
     - assets/images/logo.png
     - assets/images/proeg.jpg
+    - assets/images/minis.jpg
     - assets/images/tranche1.jpg
     - assets/images/tranche2.jpg
     - assets/images/tranche3.jpg
