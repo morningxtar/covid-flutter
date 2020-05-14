@@ -1,8 +1,8 @@
 import 'package:covid19stat/screens/appbar.dart';
 import 'package:covid19stat/screens/drawer.dart' as prefix0;
-import 'package:covid19stat/screens/statistiques/first%20stat%20slide.dart';
-import 'package:covid19stat/screens/statistiques/second%20stat%20slide.dart';
-import 'package:covid19stat/screens/statistiques/third%20stat%20slide.dart';
+import 'package:covid19stat/screens/statistiques/first_stat_slide.dart';
+import 'package:covid19stat/screens/statistiques/second_stat_slide.dart';
+import 'package:covid19stat/screens/statistiques/third_stat_slide.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sticky_headers/sticky_headers/widget.dart';
