@@ -5,6 +5,7 @@ import 'package:covid19stat/screens/statistiques/second%20stat%20slide.dart';
 import 'package:covid19stat/screens/statistiques/third%20stat%20slide.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:sticky_headers/sticky_headers/widget.dart';
 
 
@@ -16,6 +17,10 @@ class Statistiques extends StatefulWidget {
 
 class StatistiqueState extends State<Statistiques> {
   final GlobalKey<ScaffoldState> _globalKey = new GlobalKey<ScaffoldState>();
+  SwiperController controller;
+  List<SwiperController> controllers;
+  List<Widget> widgetList = [];
+
   PageController _controller = PageController(
     initialPage: 0,
   );
@@ -23,11 +28,8 @@ class StatistiqueState extends State<Statistiques> {
 
   @override
   void initState() {
-    _controller.addListener(() {
-      setState(() {
-        currentPage = 0;
-      });
-    });
+    print(widgetList);
+    controller = new SwiperController();
     super.initState();
   }
 
@@ -36,16 +38,21 @@ class StatistiqueState extends State<Statistiques> {
       ..init(context);
     ScreenUtil.instance =
         ScreenUtil(width: 750, height: 1334, allowFontScaling: true);
+    widgetList.add(firstStatistiquePage(context));
+    widgetList.add(secondStatistiquePage(context));
+    widgetList.add(thirdStatistiquePage(context));
+    print(widgetList);
     return new Scaffold(
       backgroundColor: Colors.white,
       resizeToAvoidBottomPadding: true,
-      body: new PageView(
-        controller: _controller,
-        children: [
-          firstStatistiquePage(context),
-          secondStatistiquePage(context),
-          thirdStatistiquePage(context),
-        ],
+      body: new Swiper(
+        loop: false,
+        itemCount: widgetList.length,
+        controller: controller,
+        pagination: new SwiperPagination(),
+        itemBuilder: (BuildContext context, int index) {
+          return widgetList[index];
+        },
       ),
     );
   }
