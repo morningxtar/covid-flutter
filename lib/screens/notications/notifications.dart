@@ -1,5 +1,6 @@
 import 'dart:ffi';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:covid19stat/screens/appbar.dart';
 import 'package:covid19stat/screens/drawer.dart' as prefix0;
 import 'package:flutter/material.dart';
@@ -35,38 +36,61 @@ class Notifications extends StatelessWidget {
     );
   }
 
-  Widget notif(context){
+  Widget notif(context) {
     return Card(
       child: Container(
-        height: 160,
+        height: 130,
         width: MediaQuery.of(context).size.width,
         child: Column(
           children: <Widget>[
-            Text("Propagation du couvre-feu",style: TextStyle(color: Colors.orange,fontWeight: FontWeight.w800,fontSize:17),),
-            SizedBox(height: 10,),
+            Text(
+              "Propagation du couvre-feu",
+              style: TextStyle(
+                  color: Colors.orange,
+                  fontWeight: FontWeight.w800,
+                  fontSize: 17),
+            ),
+            SizedBox(
+              height: 10,
+            ),
             Container(
-                child: Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, uis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in eprehenderit in vose cillum djhd dihbd hibdi olore ",),
+              child: AutoSizeText(
+                'Le couvre-feu, instauré sur l\'ensemble\n'
+                'du territoire le 24 mars 2020, est porogé\n'
+                'pour une nouvelle période allant',
               ),
-            SizedBox(height: 10,),
+            ),
+            SizedBox(
+              height: 10,
+            ),
             Row(
               children: <Widget>[
-                SizedBox(width: 30,),
-                Text("du 25 avril au 8 mai 2020, de 21H à 5H",style: TextStyle(color: Colors.red,fontWeight: FontWeight.w800,fontSize:17 ),),            
-                Expanded(
-                  child: Container(
-                    width: 30,
-                    height: 30,
-                    child: Icon(Icons.arrow_drop_down, size: 20,),
-                    decoration: BoxDecoration(
+                Padding(
+                  padding: EdgeInsets.only(
+                      left: MediaQuery.of(context).size.width / 9,
+                      right: MediaQuery.of(context).size.width / 15),
+                  child: AutoSizeText(
+                    "du 25 avril au 8 mai 2020, de 21H à 5H",
+                    style: TextStyle(
+                        color: Colors.red,
+                        fontWeight: FontWeight.w800,
+                        fontSize: 10),
+                  ),
+                ),
+                Container(
+                  width: 20,
+                  height: 20,
+                  child: Icon(
+                    Icons.arrow_drop_down,
+                    size: 15,
+                  ),
+                  decoration: BoxDecoration(
                       border: Border.all(color: Colors.black),
-                        shape: BoxShape.circle,
-                        color: Color(0xFFffffff)),
-                  )
+                      shape: BoxShape.circle,
+                      color: Color(0xFFffffff)),
                 )
               ],
             ),
-
-            SizedBox(height: 10,),
           ],
         ),
       ),
@@ -87,8 +111,7 @@ class Notifications extends StatelessWidget {
           body: Scaffold(
               appBar: PreferredSize(
                   preferredSize: Size.fromHeight(50.0),
-                  child:
-                  header('Point de la situation COVID-19\n 01 Mai 2020')),
+                  child: header('Alerte infos')),
               body: notification(context))),
     );
   }
