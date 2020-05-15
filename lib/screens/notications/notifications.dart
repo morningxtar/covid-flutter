@@ -5,17 +5,16 @@ import 'package:covid19stat/screens/drawer.dart' as prefix0;
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../header.dart';
 
 class Notifications extends StatelessWidget {
-
   PageController _controller = PageController(
     initialPage: 0,
   );
   double currentPage = 0;
 
   Widget notification(BuildContext context) {
-    ScreenUtil.instance = ScreenUtil.getInstance()
-      ..init(context);
+    ScreenUtil.instance = ScreenUtil.getInstance()..init(context);
     ScreenUtil.instance =
         ScreenUtil(width: 750, height: 1334, allowFontScaling: true);
     return new Scaffold(
@@ -75,10 +74,12 @@ class Notifications extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: appbar('Notification'),
-      drawer: prefix0.drawer(context),
-      body: notification(context),
-    );
+    return Scaffold(
+        appBar: headerLogo(context),
+        body: Scaffold(
+            appBar: PreferredSize(
+                preferredSize: Size.fromHeight(50.0),
+                child: header('Alerte infos')),
+            body: notification(context)));
   }
 }
