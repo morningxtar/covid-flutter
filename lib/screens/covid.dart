@@ -17,7 +17,7 @@ class Covid extends StatelessWidget {
       title: 'Covid stats',
       debugShowCheckedModeBanner: false,
       theme: appTheme,
-      home: new Notifications(),
+      home: new Statistiques(),
     );
   }
 
