@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:covid19stat/screens/appbar.dart';
 import 'package:covid19stat/screens/drawer.dart' as prefix0;
@@ -10,9 +8,9 @@ import '../footer.dart';
 import '../header.dart';
 
 class Notifications extends StatelessWidget {
-  PageController _controller = PageController(
-    initialPage: 0,
-  );
+  // PageController _controller = PageController(
+  //   initialPage: 0,
+  // );
   double currentPage = 0;
 
   Widget notification(BuildContext context) {
