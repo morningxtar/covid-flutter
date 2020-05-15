@@ -1,5 +1,6 @@
 import 'package:covid19stat/screens/appbar.dart';
 import 'package:covid19stat/screens/drawer.dart' as prefix0;
+import 'package:covid19stat/screens/footer.dart';
 import 'package:covid19stat/screens/header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -9,23 +10,16 @@ import 'first_stat_slide.dart';
 import 'second_stat_slide.dart';
 import 'third_stat_slide.dart';
 
-class Statistiques extends StatefulWidget {
-  @override
-  StatistiqueState createState() => StatistiqueState();
-}
 
-class StatistiqueState extends State<Statistiques> {
+class Statistiques extends StatelessWidget {
   final GlobalKey<ScaffoldState> _globalKey = new GlobalKey<ScaffoldState>();
   SwiperController controller;
   List<SwiperController> controllers;
   List<Widget> widgetList = [];
 
-
   @override
   void initState() {
-
     controller = new SwiperController();
-    super.initState();
   }
 
   Widget Statistique(BuildContext context) {
@@ -42,7 +36,14 @@ class StatistiqueState extends State<Statistiques> {
           loop: false,
           itemCount: widgetList.length,
           controller: controller,
-          pagination: new SwiperPagination(),
+          pagination: new SwiperPagination(
+            builder: DotSwiperPaginationBuilder(
+                activeColor: Color.fromRGBO(84, 84, 84, 1),
+              activeSize: 10,
+              space: 2,
+              color: Colors.grey.shade200
+            )
+          ),
           itemBuilder: (BuildContext context, int index) {
             return widgetList[index];
           },
@@ -60,8 +61,9 @@ class StatistiqueState extends State<Statistiques> {
       key: _globalKey,
       appBar: appbar('Statistique'),
       bottomNavigationBar: Container(
-        height: MediaQuery.of(context).size.height /30,
-          child: Text('footer')),
+          height: MediaQuery.of(context).size.height / 28,
+          color: Colors.white,
+          child: footer(context)),
       drawer: prefix0.drawer(context),
       body: Scaffold(
           appBar: headerLogo(context),
@@ -70,8 +72,7 @@ class StatistiqueState extends State<Statistiques> {
                   preferredSize: Size.fromHeight(50.0),
                   child:
                       header('Point de la situation COVID-19\n 01 Mai 2020')),
-              body: Statistique(context))
-      ),
+              body: Statistique(context))),
     );
   }
 }

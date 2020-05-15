@@ -1,3 +1,4 @@
+import 'package:covid19stat/screens/statistiques/statistiques.dart';
 import 'package:flutter/material.dart';
 
 import 'notications/notifications.dart';
@@ -10,10 +11,13 @@ Widget drawer(BuildContext context) {
         padding: EdgeInsets.zero,
         children: <Widget>[
           DrawerHeader(
-            child: Text('Drawer Header'),
+            child: Text(''),
             decoration: BoxDecoration(
-              color: Colors.blue,
-            ),
+                image: DecorationImage(
+                    image: AssetImage(
+                      'assets/images/drawerhead.jpg',
+                    ),
+                    fit: BoxFit.cover)),
           ),
           Visibility(
             visible: true,
@@ -26,7 +30,10 @@ Widget drawer(BuildContext context) {
                     color: Color.fromRGBO(75, 75, 75, 0.8)),
               ),
               onTap: () {
-                Navigator.of(context).pop();
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => Statistiques()),
+                );
               },
               leading: Icon(
                 Icons.dashboard,
@@ -45,7 +52,10 @@ Widget drawer(BuildContext context) {
                     color: Color.fromRGBO(75, 75, 75, 0.8)),
               ),
               onTap: () {
-                Navigator.of(context).pop();
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => Notifications()),
+                );
               },
               leading: Icon(
                 Icons.notifications_active,

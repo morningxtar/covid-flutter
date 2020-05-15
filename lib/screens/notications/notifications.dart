@@ -4,33 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 
-class Notifications extends StatefulWidget {
-  static final String routeName = 'notification';
+class Notifications extends StatelessWidget {
 
-  Notifications();
-
-  @override
-  NotificationState createState() => NotificationState();
-}
-
-class NotificationState extends State<Notifications> {
-  final GlobalKey<ScaffoldState> _globalKey = new GlobalKey<ScaffoldState>();
   PageController _controller = PageController(
     initialPage: 0,
   );
   double currentPage = 0;
 
-  @override
-  void initState() {
-    _controller.addListener(() {
-      setState(() {
-        currentPage = 0;
-      });
-    });
-    super.initState();
-  }
-
-  Widget notification() {
+  Widget notification(BuildContext context) {
     ScreenUtil.instance = ScreenUtil.getInstance()
       ..init(context);
     ScreenUtil.instance =
@@ -38,28 +19,16 @@ class NotificationState extends State<Notifications> {
     return new Scaffold(
       backgroundColor: Colors.white,
       resizeToAvoidBottomPadding: true,
-      body: new PageView(
-        controller: _controller,
-        children: [
-
-        ],
-      ),
+      body: Text('data'),
     );
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      key: _globalKey,
       appBar: appbar('Notification'),
       drawer: prefix0.drawer(context),
-      body: Notifications(),
+      body: notification(context),
     );
   }
 }
