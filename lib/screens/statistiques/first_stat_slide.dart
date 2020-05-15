@@ -37,7 +37,7 @@ Widget firstStatistiquePage(BuildContext context) {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontWeight: FontWeight.w900,
-                          color: Color.fromRGBO(239, 124, 1, 0.8),
+                          color: Color.fromRGBO(239, 124, 1, 1),
                           fontSize: MediaQuery
                               .of(context)
                               .size
@@ -48,7 +48,7 @@ Widget firstStatistiquePage(BuildContext context) {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontWeight: FontWeight.w900,
-                        color: Color.fromRGBO(239, 124, 1, 0.8),
+                        color: Color.fromRGBO(239, 124, 1, 1),
                       ),
                     ),
                   ],
@@ -73,7 +73,7 @@ Widget firstStatistiquePage(BuildContext context) {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontWeight: FontWeight.w900,
-                          color: Color.fromRGBO(76, 174, 6, 0.8),
+                          color: Color.fromRGBO(59, 170, 53, 1),
                           fontSize: MediaQuery
                               .of(context)
                               .size
@@ -84,7 +84,7 @@ Widget firstStatistiquePage(BuildContext context) {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontWeight: FontWeight.w900,
-                        color: Color.fromRGBO(76, 174, 6, 0.8),
+                        color: Color.fromRGBO(59, 170, 53, 1),
                       ),
                     ),
                   ],
@@ -109,7 +109,7 @@ Widget firstStatistiquePage(BuildContext context) {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontWeight: FontWeight.w900,
-                          color: Color.fromRGBO(40, 40, 40, 0.8),
+                          color: Color.fromRGBO(40, 40, 40, 1),
                           fontSize: MediaQuery
                               .of(context)
                               .size
@@ -120,7 +120,7 @@ Widget firstStatistiquePage(BuildContext context) {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontWeight: FontWeight.w900,
-                        color: Color.fromRGBO(40, 40, 40, 0.8),
+                        color: Color.fromRGBO(40, 40, 40, 1),
                       ),
                     ),
                   ],
@@ -159,7 +159,7 @@ Widget firstStatistiquePage(BuildContext context) {
                     .size
                     .height / 7,
                 decoration: BoxDecoration(
-                    color: Color.fromRGBO(205, 215, 223, 0.8),
+                    color: Color.fromRGBO(205, 215, 223, 1),
                     shape: BoxShape.circle),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -169,7 +169,7 @@ Widget firstStatistiquePage(BuildContext context) {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: Color.fromRGBO(35, 35, 35, 0.8),
+                          color: Color.fromRGBO(35, 35, 35, 1),
                           fontSize: MediaQuery
                               .of(context)
                               .size
@@ -180,7 +180,7 @@ Widget firstStatistiquePage(BuildContext context) {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: Color.fromRGBO(35, 35, 35, 0.8),
+                          color: Color.fromRGBO(35, 35, 35, 1),
                           fontSize: MediaQuery
                               .of(context)
                               .size
@@ -260,7 +260,7 @@ Widget firstStatistiquePage(BuildContext context) {
                       .size
                       .height / 7,
                   decoration: BoxDecoration(
-                      color: Color.fromRGBO(76, 174, 6, 0.8),
+                      color: Color.fromRGBO(59, 170, 53, 1),
                       shape: BoxShape.circle),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -302,7 +302,7 @@ Widget firstStatistiquePage(BuildContext context) {
                       .size
                       .height / 7,
                   decoration: BoxDecoration(
-                      color: Color.fromRGBO(40, 40, 40, 0.8),
+                      color: Color.fromRGBO(40, 40, 40, 1),
                       shape: BoxShape.circle),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -341,7 +341,7 @@ Widget firstStatistiquePage(BuildContext context) {
             'Sources : Ministère de la Santé et de l\'Hygiène publique',
             style: TextStyle(
                 fontWeight: FontWeight.bold,
-                color: Color.fromRGBO(40, 40, 40, 0.8),
+                color: Color.fromRGBO(40, 40, 40, 1),
                 fontSize: MediaQuery
                     .of(context)
                     .size

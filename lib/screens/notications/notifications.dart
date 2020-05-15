@@ -1,36 +1,19 @@
+import 'dart:ffi';
+
 import 'package:covid19stat/screens/appbar.dart';
 import 'package:covid19stat/screens/drawer.dart' as prefix0;
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 
-class Notifications extends StatefulWidget {
-  static final String routeName = 'notification';
+class Notifications extends StatelessWidget {
 
-  Notifications();
-
-  @override
-  NotificationState createState() => NotificationState();
-}
-
-class NotificationState extends State<Notifications> {
-  final GlobalKey<ScaffoldState> _globalKey = new GlobalKey<ScaffoldState>();
   PageController _controller = PageController(
     initialPage: 0,
   );
   double currentPage = 0;
 
-  @override
-  void initState() {
-    _controller.addListener(() {
-      setState(() {
-        currentPage = 0;
-      });
-    });
-    super.initState();
-  }
-
-  Widget notification() {
+  Widget notification(BuildContext context) {
     ScreenUtil.instance = ScreenUtil.getInstance()
       ..init(context);
     ScreenUtil.instance =
@@ -38,28 +21,64 @@ class NotificationState extends State<Notifications> {
     return new Scaffold(
       backgroundColor: Colors.white,
       resizeToAvoidBottomPadding: true,
-      body: new PageView(
-        controller: _controller,
-        children: [
-
+      body: ListView(
+        children: <Widget>[
+          notif(context),
+          notif(context),
+          notif(context),
+          notif(context),
+          notif(context),
+          notif(context),
+          notif(context),
         ],
       ),
     );
   }
 
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
+  Widget notif(context){
+    return Card(
+      child: Container(
+        height: 160,
+        width: MediaQuery.of(context).size.width,
+        child: Column(
+          children: <Widget>[
+            Text("Propagation du couvre-feu",style: TextStyle(color: Colors.orange,fontWeight: FontWeight.w800,fontSize:17),),
+            SizedBox(height: 10,),
+            Container(
+                child: Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, uis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in eprehenderit in vose cillum djhd dihbd hibdi olore ",),
+              ),
+            SizedBox(height: 10,),
+            Row(
+              children: <Widget>[
+                SizedBox(width: 30,),
+                Text("du 25 avril au 8 mai 2020, de 21H à 5H",style: TextStyle(color: Colors.red,fontWeight: FontWeight.w800,fontSize:17 ),),            
+                Expanded(
+                  child: Container(
+                    width: 30,
+                    height: 30,
+                    child: Icon(Icons.arrow_drop_down, size: 20,),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.black),
+                        shape: BoxShape.circle,
+                        color: Color(0xFFffffff)),
+                  )
+                )
+              ],
+            ),
+
+            SizedBox(height: 10,),
+          ],
+        ),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      key: _globalKey,
       appBar: appbar('Notification'),
       drawer: prefix0.drawer(context),
-      body: Notifications(),
+      body: notification(context),
     );
   }
 }
