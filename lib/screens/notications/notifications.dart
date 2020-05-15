@@ -54,42 +54,46 @@ class Notifications extends StatelessWidget {
               height: 10,
             ),
             Container(
-              child: AutoSizeText(
-                'Le couvre-feu, instauré sur l\'ensemble\n'
-                    'du territoire le 24 mars 2020, est porogé\n'
-                    'pour une nouvelle période allant',
+              child: Column(
+                children: <Widget>[
+                  AutoSizeText(
+                    'Le couvre-feu, instauré sur l\'ensemble\n'
+                        'du territoire le 24 mars 2020, est porogé\n'
+                        'pour une nouvelle période allant',
+                  ),
+                  Row(
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.only(
+                            left: MediaQuery.of(context).size.width / 9,
+                            right: MediaQuery.of(context).size.width / 15),
+                        child: AutoSizeText(
+                          "du 25 avril au 8 mai 2020, de 21H à 5H",
+                          style: TextStyle(
+                              color: Colors.red,
+                              fontWeight: FontWeight.w800,
+                              fontSize: 10),
+                        ),
+                      ),
+                      Container(
+                        width: 20,
+                        height: 20,
+                        child: Icon(
+                          Icons.arrow_drop_down,
+                          size: 15,
+                        ),
+                        decoration: BoxDecoration(
+                            border: Border.all(color: Colors.black),
+                            shape: BoxShape.circle,
+                            color: Color(0xFFffffff)),
+                      )
+                    ],
+                  ),
+                ],
               ),
             ),
             SizedBox(
               height: 10,
-            ),
-            Row(
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.only(
-                      left: MediaQuery.of(context).size.width / 9,
-                      right: MediaQuery.of(context).size.width / 15),
-                  child: AutoSizeText(
-                    "du 25 avril au 8 mai 2020, de 21H à 5H",
-                    style: TextStyle(
-                        color: Colors.red,
-                        fontWeight: FontWeight.w800,
-                        fontSize: 10),
-                  ),
-                ),
-                Container(
-                  width: 20,
-                  height: 20,
-                  child: Icon(
-                    Icons.arrow_drop_down,
-                    size: 15,
-                  ),
-                  decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black),
-                      shape: BoxShape.circle,
-                      color: Color(0xFFffffff)),
-                )
-              ],
             ),
           ],
         ),
