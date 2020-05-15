@@ -11,13 +11,12 @@ Widget drawer(BuildContext context) {
         padding: EdgeInsets.zero,
         children: <Widget>[
           DrawerHeader(
-            child: Text(''),
             decoration: BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage(
-                      'assets/images/drawerhead.jpg',
-                    ),
-                    fit: BoxFit.cover)),
+              image: DecorationImage(
+                image: AssetImage("assets/images/drawerhead.jpg"),
+                    fit: BoxFit.contain)
+            ),
+            child: null,
           ),
           Visibility(
             visible: true,
