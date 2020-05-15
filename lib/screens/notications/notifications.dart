@@ -3,6 +3,7 @@ import 'package:covid19stat/screens/drawer.dart' as prefix0;
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../footer.dart';
 import '../header.dart';
 
 class Notifications extends StatelessWidget {
@@ -25,11 +26,20 @@ class Notifications extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: headerLogo(context),
-        body: Scaffold(
-            appBar: PreferredSize(
-                preferredSize: Size.fromHeight(50.0),
-                child: header('Alerte infos')),
-            body: notification(context)));
+      appBar: appbar('Statistique'),
+      bottomNavigationBar: Container(
+          height: MediaQuery.of(context).size.height / 28,
+          color: Colors.white,
+          child: footer(context)),
+      drawer: prefix0.drawer(context),
+      body: Scaffold(
+          appBar: headerLogo(context),
+          body: Scaffold(
+              appBar: PreferredSize(
+                  preferredSize: Size.fromHeight(50.0),
+                  child:
+                  header('Point de la situation COVID-19\n 01 Mai 2020')),
+              body: notification(context))),
+    );
   }
 }
