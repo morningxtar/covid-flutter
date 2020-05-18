@@ -1,3 +1,6 @@
+import 'package:covid19stat/apis/fetchDatas.dart';
+import 'package:covid19stat/models/FigureGlobals.dart';
+import 'package:covid19stat/models/FigureSex.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
@@ -44,6 +47,10 @@ class TabStat {
 Widget secondStatistiquePage(BuildContext context) {
   List<TabStat> tabStat;
   tabStat = TabStat.getStat();
+  Future<List<FigureGlobals>> futureFigureGlobal = fetchFigureGlobal();
+  Future<FigureSex> futureFigureSex = fetchFigureSex();
+  int maxTauxGueri;
+  int maxTauxDeces;
   return Container(
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -59,142 +66,105 @@ Widget secondStatistiquePage(BuildContext context) {
             textScaleFactor: 1,
           ),
         ),
-        Container(
-          padding:
-          EdgeInsets.only(left: MediaQuery.of(context).size.width / 25, right: MediaQuery.of(context).size.width / 25),
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: DataTable(
-                columnSpacing: 5,
-                headingRowHeight: MediaQuery.of(context).size.height / 20,
-                dataRowHeight: MediaQuery.of(context).size.height / 30,
-                horizontalMargin: MediaQuery.of(context).size.height / 30,
-                columns: [
-                  DataColumn(
-                    label: Text(
-                      "Pays / Région",
-                      style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.width / 30),
-                    ),
-                    numeric: false,
+        FutureBuilder<List<FigureGlobals>>(
+            future: futureFigureGlobal,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return Container(
+                  padding: EdgeInsets.only(
+                      left: MediaQuery.of(context).size.width / 25,
+                      right: MediaQuery.of(context).size.width / 25),
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: DataTable(
+                        columnSpacing: 5,
+                        headingRowHeight:
+                            MediaQuery.of(context).size.height / 20,
+                        dataRowHeight: MediaQuery.of(context).size.height / 30,
+                        horizontalMargin:
+                            MediaQuery.of(context).size.height / 30,
+                        columns: [
+                          DataColumn(
+                            label: Text(
+                              "Pays / Région",
+                              style: TextStyle(
+                                  fontSize:
+                                      MediaQuery.of(context).size.width / 30),
+                            ),
+                            numeric: false,
+                          ),
+                          DataColumn(
+                            label: Text(
+                              "Cas confirmés",
+                              style: TextStyle(
+                                  fontSize:
+                                      MediaQuery.of(context).size.width / 30),
+                            ),
+                            numeric: false,
+                          ),
+                          DataColumn(
+                            label: Text(
+                              "Guérisons",
+                              style: TextStyle(
+                                  fontSize:
+                                      MediaQuery.of(context).size.width / 30),
+                            ),
+                            numeric: false,
+                          ),
+                          DataColumn(
+                            label: Text(
+                              "Décès",
+                              style: TextStyle(
+                                  fontSize:
+                                      MediaQuery.of(context).size.width / 30),
+                            ),
+                            numeric: false,
+                          ),
+                        ],
+                        rows: snapshot.data
+                            .map((figureGlobal) => DataRow(cells: [
+                                  DataCell(Text(
+                                    figureGlobal.entite,
+                                    style: TextStyle(
+                                        fontSize:
+                                            MediaQuery.of(context).size.width /
+                                                35),
+                                  )),
+                                  DataCell(Text(
+                                    figureGlobal.cas_confirme,
+                                    style: TextStyle(
+                                        fontSize:
+                                            MediaQuery.of(context).size.width /
+                                                35,
+                                        fontWeight: FontWeight.bold),
+                                  )),
+                                  DataCell(Text(
+                                    figureGlobal.cas_gueri,
+                                    style: TextStyle(
+                                        fontSize:
+                                            MediaQuery.of(context).size.width /
+                                                35,
+                                        fontWeight: FontWeight.bold),
+                                  )),
+                                  DataCell(Text(
+                                    figureGlobal.cas_deces,
+                                    style: TextStyle(
+                                        fontSize:
+                                            MediaQuery.of(context).size.width /
+                                                35,
+                                        fontWeight: FontWeight.bold),
+                                  )),
+                                ]))
+                            .toList()),
                   ),
-                  DataColumn(
-                    label: Text(
-                      "Cas confirmés",
-                      style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.width / 30),
-                    ),
-                    numeric: false,
-                  ),
-                  DataColumn(
-                    label: Text(
-                      "Guérisons",
-                      style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.width / 30),
-                    ),
-                    numeric: false,
-                  ),
-                  DataColumn(
-                    label: Text(
-                      "Décès",
-                      style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.width / 30),
-                    ),
-                    numeric: false,
-                  ),
-                ],
-                rows: [
-                  DataRow(cells: [
-                    DataCell(Text(
-                      'Monde',
-                      style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.width / 30),
-                    )),
-                    DataCell(Text(
-                      '3 303 296',
-                      style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.width / 30),
-                    )),
-                    DataCell(Text(
-                      '1 038 588',
-                      style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.width / 30),
-                    )),
-                    DataCell(Text(
-                      '285 290',
-                      style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.width / 30),
-                    )),
-                  ]),
-                  DataRow(cells: [
-                    DataCell(Text(
-                      'Afrique',
-                      style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.width / 35),
-                    )),
-                    DataCell(Text(
-                      '39 018',
-                      style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.width / 35),
-                    )),
-                    DataCell(Text(
-                      '12 750',
-                      style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.width / 35),
-                    )),
-                    DataCell(Text(
-                      '1 640',
-                      style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.width / 35),
-                    )),
-                  ]),
-                  DataRow(cells: [
-                    DataCell(Text(
-                      'Afrique de l\'Ouest',
-                      style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.width / 35),
-                    )),
-                    DataCell(Text(
-                      '10 395',
-                      style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.width / 30),
-                    )),
-                    DataCell(Text(
-                      '3 140',
-                      style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.width / 30),
-                    )),
-                    DataCell(Text(
-                      '244',
-                      style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.width / 30),
-                    )),
-                  ]),
-                  DataRow(cells: [
-                    DataCell(Text(
-                      'Côte d\'Ivoire',
-                      style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.width / 35),
-                    )),
-                    DataCell(Text(
-                      '1 353',
-                      style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.width / 35),
-                    )),
-                    DataCell(Text(
-                      '597',
-                      style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.width / 35),
-                    )),
-                    DataCell(Text(
-                      '15',
-                      style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.width / 35),
-                    )),
-                  ]),
-                ]),
-          ),
-        ),
+                );
+              } else if (snapshot.hasError) {
+                return Text("${snapshot.error}");
+              }
+
+              // By default, show a loading spinner.
+              return CircularProgressIndicator();
+            }),
         Padding(
           padding: EdgeInsets.only(top: 10),
           child: Divider(
@@ -225,130 +195,54 @@ Widget secondStatistiquePage(BuildContext context) {
                         color: Colors.black,
                       ),
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: <Widget>[
-                        Row(
-                          children: <Widget>[
-                            Padding(
-                              padding: EdgeInsets.only(left: 5, right: 10),
-                              child: Text(
-                                'Monde',
-                                style: TextStyle(
-                                    fontSize:
-                                    MediaQuery.of(context).size.width / 40,
-                                    color: Color.fromRGBO(78, 172, 54, 1)),
-                              ),
-                            ),
-                            StepProgressIndicator(
-                              totalSteps: 45,
-                              currentStep: 32,
-                              size: 5,
-                              padding: 0,
-                              unselectedSize: 0,
-                              selectedColor: Color.fromRGBO(78, 172, 54, 1),
-                              progressDirection: TextDirection.ltr,
-                            ),
-                            Text(
-                              '31%',
-                              style: TextStyle(
-                                  fontSize:
-                                  MediaQuery.of(context).size.width / 40,
-                                  color: Color.fromRGBO(78, 172, 54, 1)),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: <Widget>[
-                            Padding(
-                              padding: EdgeInsets.only(left: 5, right: 10),
-                              child: Text(
-                                'Afrique',
-                                style: TextStyle(
-                                    fontSize:
-                                    MediaQuery.of(context).size.width / 40,
-                                    color: Color.fromRGBO(78, 172, 54, 1)),
-                              ),
-                            ),
-                            StepProgressIndicator(
-                              totalSteps: 45,
-                              currentStep: 33,
-                              size: 5,
-                              padding: 0,
-                              unselectedSize: 0,
-                              selectedColor: Color.fromRGBO(78, 172, 54, 1),
-                              progressDirection: TextDirection.ltr,
-                            ),
-                            Text(
-                              '33%',
-                              style: TextStyle(
-                                  fontSize:
-                                  MediaQuery.of(context).size.width / 40,
-                                  color: Color.fromRGBO(78, 172, 54, 1)),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: <Widget>[
-                            Padding(
-                              padding: EdgeInsets.only(left: 5, right: 10),
-                              child: Text(
-                                'Afrique de l\'Ouest',
-                                style: TextStyle(
-                                    fontSize:
-                                    MediaQuery.of(context).size.width / 40,
-                                    color: Color.fromRGBO(78, 172, 54, 1)),
-                              ),
-                            ),
-                            StepProgressIndicator(
-                              totalSteps: 45,
-                              currentStep: 30,
-                              size: 5,
-                              padding: 0,
-                              unselectedSize: 0,
-                              selectedColor: Color.fromRGBO(78, 172, 54, 1),
-                              progressDirection: TextDirection.ltr,
-                            ),
-                            Text(
-                              '30%',
-                              style: TextStyle(
-                                  fontSize:
-                                  MediaQuery.of(context).size.width / 40,
-                                  color: Color.fromRGBO(78, 172, 54, 1)),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: <Widget>[
-                            Padding(
-                              padding: EdgeInsets.only(left: 5, right: 10),
-                              child: Text(
-                                'Côte d\'Ivoire',
-                                style: TextStyle(
-                                    fontSize:
-                                    MediaQuery.of(context).size.width / 40,
-                                    color: Color.fromRGBO(78, 172, 54, 1)),
-                              ),
-                            ),
-                            StepProgressIndicator(
-                              totalSteps: 45,
-                              currentStep: 45,
-                              size: 5,
-                              padding: 0,
-                              unselectedSize: 0,
-                              selectedColor: Color.fromRGBO(78, 172, 54, 1),
-                              progressDirection: TextDirection.ltr,
-                            ),
-                            Text(
-                              '45%',
-                              style: TextStyle(
-                                  fontSize:
-                                  MediaQuery.of(context).size.width / 40,
-                                  color: Color.fromRGBO(78, 172, 54, 1)),
-                            ),
-                          ],
-                        ),
-                      ],
+                    FutureBuilder<List<FigureGlobals>>(
+                      future: futureFigureGlobal,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          maxTauxGueri = getMaxTauxGueri(snapshot.data);
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: snapshot.data.map((figureGlobal) {
+                              return Row(
+                                children: <Widget>[
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 5, right: 10),
+                                    child: Text(
+                                      figureGlobal.entite,
+                                      style: TextStyle(
+                                          fontSize:
+                                          MediaQuery.of(context).size.width /
+                                              40,
+                                          color: Color.fromRGBO(78, 172, 54, 1)),
+                                    ),
+                                  ),
+                                  StepProgressIndicator(
+                                    totalSteps: maxTauxGueri,
+                                    currentStep: int.parse(figureGlobal.taux_gueri),
+                                    size: 5,
+                                    padding: 0,
+                                    unselectedSize: 0,
+                                    selectedColor: Color.fromRGBO(78, 172, 54, 1),
+                                    progressDirection: TextDirection.ltr,
+                                  ),
+                                  Text(
+                                    figureGlobal.taux_gueri+'%',
+                                    style: TextStyle(
+                                        fontSize:
+                                        MediaQuery.of(context).size.width /
+                                            40,
+                                        color: Color.fromRGBO(78, 172, 54, 1)),
+                                  ),
+                                ],
+                              );
+                            }).toList(),
+                          );
+                        } else if (snapshot.hasError) {
+                          return Text("${snapshot.error}");
+                        }
+                        // By default, show a loading spinner.
+                        return CircularProgressIndicator();
+                      },
                     )
                   ],
                 ),
@@ -363,130 +257,54 @@ Widget secondStatistiquePage(BuildContext context) {
                     Divider(
                       height: 2,
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: <Widget>[
-                        Row(
-                          children: <Widget>[
-                            Padding(
-                              padding: EdgeInsets.only(left: 5, right: 10),
-                              child: Text(
-                                'Monde',
-                                style: TextStyle(
-                                    fontSize:
-                                    MediaQuery.of(context).size.width / 40,
-                                    color: Color.fromRGBO(44, 44, 44, 1)),
-                              ),
-                            ),
-                            StepProgressIndicator(
-                              totalSteps: 7,
-                              currentStep: 7,
-                              size: 5,
-                              padding: 0,
-                              unselectedSize: 0,
-                              selectedColor: Color.fromRGBO(44, 44, 44, 1),
-                              progressDirection: TextDirection.ltr,
-                            ),
-                            Text(
-                              '7%',
-                              style: TextStyle(
-                                  fontSize:
-                                  MediaQuery.of(context).size.width / 40,
-                                  color: Color.fromRGBO(44, 44, 44, 1)),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: <Widget>[
-                            Padding(
-                              padding: EdgeInsets.only(left: 5, right: 10),
-                              child: Text(
-                                'Afrique',
-                                style: TextStyle(
-                                    fontSize:
-                                    MediaQuery.of(context).size.width / 40,
-                                    color: Color.fromRGBO(44, 44, 44, 1)),
-                              ),
-                            ),
-                            StepProgressIndicator(
-                              totalSteps: 7,
-                              currentStep: 4,
-                              size: 5,
-                              padding: 0,
-                              unselectedSize: 0,
-                              selectedColor: Color.fromRGBO(44, 44, 44, 1),
-                              progressDirection: TextDirection.ltr,
-                            ),
-                            Text(
-                              '4%',
-                              style: TextStyle(
-                                  fontSize:
-                                  MediaQuery.of(context).size.width / 40,
-                                  color: Color.fromRGBO(44, 44, 44, 1)),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: <Widget>[
-                            Padding(
-                              padding: EdgeInsets.only(left: 5, right: 10),
-                              child: Text(
-                                'Afrique de l\'Ouest',
-                                style: TextStyle(
-                                    fontSize:
-                                    MediaQuery.of(context).size.width / 40,
-                                    color: Color.fromRGBO(44, 44, 44, 1)),
-                              ),
-                            ),
-                            StepProgressIndicator(
-                              totalSteps: 7,
-                              currentStep: 2,
-                              size: 5,
-                              padding: 0,
-                              unselectedSize: 0,
-                              selectedColor: Color.fromRGBO(44, 44, 44, 1),
-                              progressDirection: TextDirection.ltr,
-                            ),
-                            Text(
-                              '2%',
-                              style: TextStyle(
-                                  fontSize:
-                                  MediaQuery.of(context).size.width / 40,
-                                  color: Color.fromRGBO(44, 44, 44, 1)),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: <Widget>[
-                            Padding(
-                              padding: EdgeInsets.only(left: 5, right: 10),
-                              child: Text(
-                                'Côte d\'Ivoire',
-                                style: TextStyle(
-                                    fontSize:
-                                    MediaQuery.of(context).size.width / 40,
-                                    color: Color.fromRGBO(44, 44, 44, 1)),
-                              ),
-                            ),
-                            StepProgressIndicator(
-                              totalSteps: 7,
-                              currentStep: 1,
-                              size: 5,
-                              padding: 0,
-                              unselectedSize: 0,
-                              selectedColor: Color.fromRGBO(44, 44, 44, 1),
-                              progressDirection: TextDirection.ltr,
-                            ),
-                            Text(
-                              '1%',
-                              style: TextStyle(
-                                  fontSize:
-                                  MediaQuery.of(context).size.width / 40,
-                                  color: Color.fromRGBO(44, 44, 44, 1)),
-                            ),
-                          ],
-                        ),
-                      ],
+                    FutureBuilder<List<FigureGlobals>>(
+                      future: futureFigureGlobal,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          maxTauxDeces = getMaxTauxDeces(snapshot.data);
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: snapshot.data.map((figureGlobal) {
+                              return Row(
+                                children: <Widget>[
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 5, right: 10),
+                                    child: Text(
+                                      figureGlobal.entite,
+                                      style: TextStyle(
+                                          fontSize:
+                                          MediaQuery.of(context).size.width /
+                                              40,
+                                          color: Color.fromRGBO(44, 44, 44, 1)),
+                                    ),
+                                  ),
+                                  StepProgressIndicator(
+                                    totalSteps: maxTauxDeces,
+                                    currentStep: int.parse(figureGlobal.taux_deces),
+                                    size: 5,
+                                    padding: 0,
+                                    unselectedSize: 0,
+                                    selectedColor: Color.fromRGBO(44, 44, 44, 1),
+                                    progressDirection: TextDirection.ltr,
+                                  ),
+                                  Text(
+                                    figureGlobal.taux_deces+'%',
+                                    style: TextStyle(
+                                        fontSize:
+                                        MediaQuery.of(context).size.width /
+                                            40,
+                                        color: Color.fromRGBO(44, 44, 44, 1)),
+                                  ),
+                                ],
+                              );
+                            }).toList(),
+                          );
+                        } else if (snapshot.hasError) {
+                          return Text("${snapshot.error}");
+                        }
+                        // By default, show a loading spinner.
+                        return CircularProgressIndicator();
+                      },
                     )
                   ],
                 ),
@@ -516,13 +334,25 @@ Widget secondStatistiquePage(BuildContext context) {
                           width: MediaQuery.of(context).size.width / 10,
                           height: MediaQuery.of(context).size.height / 13,
                         ),
-                        Text(
-                          '10 073',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                              fontSize: MediaQuery.of(context).size.width / 35),
+                        FutureBuilder<List<FigureGlobals>>(
+                          future: futureFigureGlobal,
+                          builder: (context, snapshot){
+                            if(snapshot.hasData){
+                              return Text(
+                                snapshot.data[3].nombre_prelevement,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                    fontSize: MediaQuery.of(context).size.width / 35),
+                              );
+                            }
+                            else if (snapshot.hasError) {
+                              return Text("${snapshot.error}");
+                            }
+                            // By default, show a loading spinner.
+                            return CircularProgressIndicator();
+                          },
                         ),
                       ],
                     ),
@@ -540,72 +370,97 @@ Widget secondStatistiquePage(BuildContext context) {
               ),
             ),
             Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    'Répartition des cas\n confirmés par genre',
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Image.asset(
-                            'assets/images/standorange.jpg',
-                            width: MediaQuery.of(context).size.width / 10,
-                            height: MediaQuery.of(context).size.height / 13,
-                          )
-                        ],
-                      ),
-                      Column(
-                        children: <Widget>[
-                          Text(
-                            '61%',
-                            style:
-                            TextStyle(color: Color.fromRGBO(239, 125, 5, 1)),
-                          ),
-                          Text(
-                            'Hommes',
-                            style:
-                            TextStyle(color: Color.fromRGBO(239, 125, 5, 1)),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Column(
-                        children: <Widget>[
-                          Image.asset(
-                            'assets/images/standorangefemale.jpg',
-                            width: MediaQuery.of(context).size.width / 10,
-                            height: MediaQuery.of(context).size.height / 13,
-                          )
-                        ],
-                      ),
-                      Column(
-                        children: <Widget>[
-                          Text(
-                            '39%',
-                            style:
-                            TextStyle(color: Color.fromRGBO(239, 125, 5, 1)),
-                          ),
-                          Text(
-                            'Femmes',
-                            style:
-                            TextStyle(color: Color.fromRGBO(239, 125, 5, 1)),
-                          ),
-                        ],
-                      )
-                    ],
-                  )
-                ],
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      'Répartition des cas\n confirmés par genre',
+                    ),
+                    FutureBuilder<FigureSex>(
+                      future: futureFigureSex,
+                      builder: (context, snapshot){
+                        if(snapshot.hasData){
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Image.asset(
+                                    'assets/images/standorange.jpg',
+                                    width: MediaQuery.of(context).size.width / 10,
+                                    height: MediaQuery.of(context).size.height / 13,
+                                  )
+                                ],
+                              ),
+                              Column(
+                                children: <Widget>[
+                                  Text(
+                                    snapshot.data.pourc_nbre_masc+'%',
+                                    style: TextStyle(
+                                        color: Color.fromRGBO(239, 125, 5, 1)),
+                                  ),
+                                  Text(
+                                    'Hommes',
+                                    style: TextStyle(
+                                        color: Color.fromRGBO(239, 125, 5, 1)),
+                                  ),
+                                ],
+                              )
+                            ],
+                          );
+                        }
+                        else if (snapshot.hasError) {
+                          return Text("${snapshot.error}");
+                        }
+                        // By default, show a loading spinner.
+                        return CircularProgressIndicator();
+                      },
+                    ),
+                    FutureBuilder<FigureSex>(
+                      future: futureFigureSex,
+                      builder: (context, snapshot){
+                        if(snapshot.hasData){
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Image.asset(
+                                    'assets/images/standorangefemale.jpg',
+                                    width: MediaQuery.of(context).size.width / 10,
+                                    height: MediaQuery.of(context).size.height / 13,
+                                  )
+                                ],
+                              ),
+                              Column(
+                                children: <Widget>[
+                                  Text(
+                                    snapshot.data.pourc_nbre_fem+'%',
+                                    style: TextStyle(
+                                        color: Color.fromRGBO(239, 125, 5, 1)),
+                                  ),
+                                  Text(
+                                    'Femmes',
+                                    style: TextStyle(
+                                        color: Color.fromRGBO(239, 125, 5, 1)),
+                                  ),
+                                ],
+                              )
+                            ],
+                          );
+                        }
+                        else if (snapshot.hasError) {
+                          return Text("${snapshot.error}");
+                        }
+                        // By default, show a loading spinner.
+                        return CircularProgressIndicator();
+                      },
+                    ),
+                  ],
+                ),
               ),
-            )
           ],
         )
       ],

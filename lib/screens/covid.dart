@@ -1,4 +1,5 @@
 import 'package:covid19stat/screens/notications/notifications.dart';
+import 'package:covid19stat/screens/statistiques/statistiques.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -13,10 +14,10 @@ class Covid extends StatelessWidget {
       DeviceOrientation.portraitUp,
     ]);
     return MaterialApp(
-      title: 'Covid stats',
+      title: 'Stop Covid',
       debugShowCheckedModeBanner: false,
       theme: appTheme,
-      home: new Notifications(),
+      home: new Statistiques(),
     );
   }
 

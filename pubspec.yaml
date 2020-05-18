@@ -30,6 +30,7 @@ dependencies:
   google_maps_flutter: ^0.5.27+3
   auto_size_text: ^2.1.0
   bidirectional_scroll_view: ^0.1.1
+  http: ^0.12.1
 
 dev_dependencies:
   flutter_test:
