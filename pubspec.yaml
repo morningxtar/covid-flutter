@@ -33,6 +33,7 @@ dependencies:
   http: ^0.12.1
   shared_preferences: ^0.5.7+2
   dio: ^3.0.9
+  mobile_popup: ^1.2.0
 
 dev_dependencies:
   flutter_test:

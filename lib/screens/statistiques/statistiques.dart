@@ -29,31 +29,12 @@ class Statistiques extends StatelessWidget {
   Future<FigureAge> futureFigureAge = fetchFigureAge();
   Future<List<Figures>> futureFigures = fetchFigures();
   List<Circle> circles = [];
-  @override
-  void initState() {
-    controller = new SwiperController();
-  }
 
   Widget Statistique(BuildContext context) {
     ScreenUtil.instance = ScreenUtil.getInstance()..init(context);
     ScreenUtil.instance =
         ScreenUtil(width: 750, height: 1334, allowFontScaling: true);
 
-    futureFigures.then((value){
-      circles.add(
-          Circle(
-              circleId: CircleId(value[0].id.toString()),
-              center: LatLng(1.0, 2.3),
-              fillColor: Color.fromARGB(70, 150, 50, 50),
-              strokeColor: Colors.red,
-              radius: 1000,
-              strokeWidth: 1,consumeTapEvents: true
-          )
-      );
-    });
-
-    print("object");
-    print(circles);
     return new Scaffold(
       backgroundColor: Colors.white,
       resizeToAvoidBottomPadding: true,
@@ -78,10 +59,38 @@ class Statistiques extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    figures.map((e) {
+      circles.add(
+          Circle(
+              circleId: CircleId(e.id.toString()),
+              center: LatLng(double.parse(e.y),
+                  double.parse(e.x)),
+              fillColor: Color.fromARGB(70, 150, 50, 50),
+              strokeColor: Colors.red,
+              radius: 1000,
+              strokeWidth: 1,
+              consumeTapEvents: true
+          )
+      );
+    });
+
+    circles.add(
+        Circle(
+            circleId: CircleId('r'),
+            center: LatLng(5.37796973150617,
+                -3.96620526419914),
+            fillColor: Color.fromARGB(70, 150, 50, 50),
+            strokeColor: Colors.red,
+            radius: 1000,
+            strokeWidth: 1,
+            consumeTapEvents: true
+        )
+    );
+
     widgetList.add(firstStatistiquePage(context, futureFigure));
     widgetList.add(
         secondStatistiquePage(context, futureFigureGlobal, futureFigureSex));
-    widgetList.add(thirdStatistiquePage(context, futureFigureAge, futureFigures));
+    widgetList.add(thirdStatistiquePage(context, futureFigureAge, futureFigures, circles, figures));
     return new Scaffold(
       key: _globalKey,
       appBar: appbar('Statistique'),
@@ -100,7 +109,7 @@ class Statistiques extends StatelessWidget {
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         return header('Point de la situation COVID-19\n' +
-                            snapshot.data.date_update);
+                            date);
                       }
                       else if (snapshot.hasError) {
                         print("${snapshot.error}");

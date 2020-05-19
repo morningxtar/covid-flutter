@@ -2,9 +2,9 @@ class Figures {
   final int id;
   final String localite;
   final String commune;
-  final double x;
-  final double y;
-  final String nbre_cas;
+  final String x;
+  final String y;
+  final  nbre_cas;
 
 
   Figures({
@@ -15,6 +15,7 @@ class Figures {
       this.y,
       this.nbre_cas,
       });
+
 
   factory Figures.fromJson(Map<String, dynamic> json) {
     return Figures(

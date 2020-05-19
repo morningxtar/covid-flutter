@@ -10,7 +10,11 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
 Widget thirdStatistiquePage(
-    BuildContext context, Future<FigureAge> futureFigureAge, Future<List<Figures>> futureFigures) {
+    BuildContext context,
+    Future<FigureAge> futureFigureAge,
+    Future<List<Figures>> futureFigures,
+    List<Circle> circless,
+    List<Figures> figures) {
   ScreenUtil.instance = ScreenUtil.getInstance()..init(context);
   ScreenUtil.instance =
       ScreenUtil(width: 750, height: 1334, allowFontScaling: true);
@@ -23,8 +27,31 @@ Widget thirdStatistiquePage(
     mapController = controller;
   }
 
-  List<Circle> circlesOr = [];
+  List<Circle> circles = [];
 
+  for (var i = 0; i < figures.length; i++) {
+    circles.add(Circle(
+        circleId: CircleId(figures[i].id.toString()),
+        center: LatLng(double.parse(figures[i].y), double.parse(figures[i].x)),
+        fillColor: Color.fromARGB(70, 150, 50, 50),
+        strokeColor: Colors.red,
+        radius: 2000,
+        strokeWidth: 1,
+        consumeTapEvents: true,
+        onTap: () {
+          print('cas ' + figures[i].nbre_cas.toString());
+          return AlertDialog(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(32.0))),
+              contentPadding: EdgeInsets.only(top: 10.0),
+              content: Container(
+                width: 300.0,
+              ));
+        }));
+  }
+
+  print('oyes ' + circles.toString());
+  Set<Circle> circle = Set.from(circles);
   return Container(
     child: Column(
       children: <Widget>[
@@ -165,50 +192,24 @@ Widget thirdStatistiquePage(
           padding: EdgeInsets.only(left: 5, right: 5),
           child: Row(
             children: <Widget>[
-              FutureBuilder<List<Figures>>(
-                future: futureFigures,
-                builder: (context, snapshot){
-                  if(snapshot.hasData){
-                    snapshot.data.map((commune) {
-                      circlesOr.add(
-                          Circle(
-                              circleId: CircleId(commune.id.toString()),
-                              center: LatLng(commune.x, commune.y),
-                              fillColor: Color.fromARGB(70, 150, 50, 50),
-                              strokeColor: Colors.red,
-                              radius: 1000,
-                              strokeWidth: 1,consumeTapEvents: true
-                          )
-                      );
-                    }).toList();
-                    Set<Circle> circles = Set.from(circlesOr);
-                    return Container(
-                      width: MediaQuery.of(context).size.width / 2,
-                      height: MediaQuery.of(context).size.height / 3.5,
-                      child: GoogleMap(
-                        zoomControlsEnabled: true,
-                        zoomGesturesEnabled: true,
-                        rotateGesturesEnabled: true,
-                        scrollGesturesEnabled: true,
-                        tiltGesturesEnabled: true,
-                        trafficEnabled: true,
-                        onMapCreated: _onMapCreated,
-                        mapToolbarEnabled: true,
-                        initialCameraPosition: CameraPosition(
-                          target: _center,
-                          zoom: 10,
-                        ),
-                        circles: circles,
-                      ),
-                    );
-                  }
-                  else if (snapshot.hasError) {
-                    print("${snapshot.error}");
-                    return CircularProgressIndicator();
-                    return Text("${snapshot.error}");
-                  }
-                  return CircularProgressIndicator();
-                },
+              Container(
+                width: MediaQuery.of(context).size.width / 2,
+                height: MediaQuery.of(context).size.height / 3.5,
+                child: GoogleMap(
+                  zoomControlsEnabled: true,
+                  zoomGesturesEnabled: true,
+                  rotateGesturesEnabled: true,
+                  scrollGesturesEnabled: true,
+                  tiltGesturesEnabled: true,
+                  trafficEnabled: true,
+                  onMapCreated: _onMapCreated,
+                  mapToolbarEnabled: true,
+                  initialCameraPosition: CameraPosition(
+                    target: _center,
+                    zoom: 9,
+                  ),
+                  circles: circle,
+                ),
               ),
               Container(
                 width: MediaQuery.of(context).size.width / 2.2,
