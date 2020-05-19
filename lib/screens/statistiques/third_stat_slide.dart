@@ -28,7 +28,7 @@ Widget thirdStatistiquePage(
   }
 
   List<Circle> circles = [];
-
+  print('oyes ' + figures.toString());
   for (var i = 0; i < figures.length; i++) {
     circles.add(Circle(
         circleId: CircleId(figures[i].id.toString()),
@@ -38,16 +38,7 @@ Widget thirdStatistiquePage(
         radius: 2000,
         strokeWidth: 1,
         consumeTapEvents: true,
-        onTap: () {
-          print('cas ' + figures[i].nbre_cas.toString());
-          return AlertDialog(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(32.0))),
-              contentPadding: EdgeInsets.only(top: 10.0),
-              content: Container(
-                width: 300.0,
-              ));
-        }));
+        ));
   }
 
   print('oyes ' + circles.toString());

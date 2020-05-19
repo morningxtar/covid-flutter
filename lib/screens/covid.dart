@@ -1,3 +1,5 @@
+import 'package:covid19stat/apis/fetchDatas.dart';
+import 'package:covid19stat/models/FigureCI.dart';
 import 'package:covid19stat/screens/notications/notifications.dart';
 import 'package:covid19stat/screens/statistiques/statistiques.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +15,8 @@ class Covid extends StatelessWidget {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
     ]);
+    Future<FigureCI> futureFigure = fetchFigure();
+
     return MaterialApp(
       title: 'Stop Covid',
       debugShowCheckedModeBanner: false,
