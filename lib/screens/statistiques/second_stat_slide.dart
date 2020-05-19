@@ -44,14 +44,14 @@ class TabStat {
   }
 }
 
-Widget secondStatistiquePage(BuildContext context) {
+
+Widget secondStatistiquePage(BuildContext context, Future<List<FigureGlobals>> futureFigureGlobal, Future<FigureSex> futureFigureSex) {
   List<TabStat> tabStat;
   tabStat = TabStat.getStat();
-  Future<List<FigureGlobals>> futureFigureGlobal = fetchFigureGlobal();
-  Future<FigureSex> futureFigureSex = fetchFigureSex();
+
   int maxTauxGueri;
   int maxTauxDeces;
-  return Container(
+  return  Container(
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -159,6 +159,8 @@ Widget secondStatistiquePage(BuildContext context) {
                   ),
                 );
               } else if (snapshot.hasError) {
+                print("${snapshot.error}");
+                return CircularProgressIndicator();
                 return Text("${snapshot.error}");
               }
 
@@ -238,6 +240,8 @@ Widget secondStatistiquePage(BuildContext context) {
                             }).toList(),
                           );
                         } else if (snapshot.hasError) {
+                          print("${snapshot.error}");
+                          return CircularProgressIndicator();
                           return Text("${snapshot.error}");
                         }
                         // By default, show a loading spinner.
@@ -300,6 +304,8 @@ Widget secondStatistiquePage(BuildContext context) {
                             }).toList(),
                           );
                         } else if (snapshot.hasError) {
+                          print("${snapshot.error}");
+                          return CircularProgressIndicator();
                           return Text("${snapshot.error}");
                         }
                         // By default, show a loading spinner.
@@ -348,6 +354,8 @@ Widget secondStatistiquePage(BuildContext context) {
                               );
                             }
                             else if (snapshot.hasError) {
+                              print("${snapshot.error}");
+                              return CircularProgressIndicator();
                               return Text("${snapshot.error}");
                             }
                             // By default, show a loading spinner.
@@ -411,6 +419,8 @@ Widget secondStatistiquePage(BuildContext context) {
                           );
                         }
                         else if (snapshot.hasError) {
+                          print("${snapshot.error}");
+                          return CircularProgressIndicator();
                           return Text("${snapshot.error}");
                         }
                         // By default, show a loading spinner.
@@ -452,6 +462,8 @@ Widget secondStatistiquePage(BuildContext context) {
                           );
                         }
                         else if (snapshot.hasError) {
+                          print("${snapshot.error}");
+                          return CircularProgressIndicator();
                           return Text("${snapshot.error}");
                         }
                         // By default, show a loading spinner.

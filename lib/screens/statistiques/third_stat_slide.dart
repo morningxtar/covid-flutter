@@ -1,25 +1,29 @@
+import 'dart:ui';
+
 import 'package:covid19stat/apis/fetchDatas.dart';
 import 'package:covid19stat/models/FigureAge.dart';
+import 'package:covid19stat/models/Figures.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
-Widget thirdStatistiquePage(BuildContext context) {
+Widget thirdStatistiquePage(
+    BuildContext context, Future<FigureAge> futureFigureAge, Future<List<Figures>> futureFigures) {
   ScreenUtil.instance = ScreenUtil.getInstance()..init(context);
   ScreenUtil.instance =
       ScreenUtil(width: 750, height: 1334, allowFontScaling: true);
 
   GoogleMapController mapController;
 
-  final LatLng _center = const LatLng(7.5455112, -5.547545);
+  final LatLng _center = const LatLng(5.37796973150617, -3.96620526419914);
 
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
   }
 
-  Future<FigureAge> futureFigure = fetchFigureAge();
+  List<Circle> circlesOr = [];
 
   return Container(
     child: Column(
@@ -29,7 +33,7 @@ Widget thirdStatistiquePage(BuildContext context) {
           child: Text('Répartition des cas confirmées par tranche d\'âge'),
         ),
         FutureBuilder<FigureAge>(
-          future: futureFigure,
+          future: futureFigureAge,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return Container(
@@ -53,7 +57,7 @@ Widget thirdStatistiquePage(BuildContext context) {
                           Column(
                             children: <Widget>[
                               Text(
-                                snapshot.data.pourc_nbre_0_30+'%',
+                                snapshot.data.pourc_nbre_0_30 + '%',
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     color: Color.fromRGBO(239, 124, 1, 1)),
@@ -87,7 +91,7 @@ Widget thirdStatistiquePage(BuildContext context) {
                           Column(
                             children: <Widget>[
                               Text(
-                                snapshot.data.pourc_nbre_31_50+'%',
+                                snapshot.data.pourc_nbre_31_50 + '%',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
@@ -122,7 +126,7 @@ Widget thirdStatistiquePage(BuildContext context) {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               Text(
-                                snapshot.data.pourc_nbre_51_plus+'%',
+                                snapshot.data.pourc_nbre_51_plus + '%',
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     color: Color.fromRGBO(191, 192, 193, 1)),
@@ -143,6 +147,8 @@ Widget thirdStatistiquePage(BuildContext context) {
                 ),
               );
             } else if (snapshot.hasError) {
+              print("${snapshot.error}");
+              return CircularProgressIndicator();
               return Text("${snapshot.error}");
             }
             return CircularProgressIndicator();
@@ -159,27 +165,54 @@ Widget thirdStatistiquePage(BuildContext context) {
           padding: EdgeInsets.only(left: 5, right: 5),
           child: Row(
             children: <Widget>[
-              Container(
-                width: MediaQuery.of(context).size.width / 2,
-                height: MediaQuery.of(context).size.height / 4,
-                child: GoogleMap(
-                  zoomControlsEnabled: true,
-                  zoomGesturesEnabled: true,
-                  rotateGesturesEnabled: true,
-                  scrollGesturesEnabled: true,
-                  tiltGesturesEnabled: true,
-                  trafficEnabled: true,
-                  onMapCreated: _onMapCreated,
-                  mapToolbarEnabled: true,
-                  initialCameraPosition: CameraPosition(
-                    target: _center,
-                    zoom: 6,
-                  ),
-                ),
+              FutureBuilder<List<Figures>>(
+                future: futureFigures,
+                builder: (context, snapshot){
+                  if(snapshot.hasData){
+                    snapshot.data.map((commune) {
+                      circlesOr.add(
+                          Circle(
+                              circleId: CircleId(commune.id.toString()),
+                              center: LatLng(commune.x, commune.y),
+                              fillColor: Color.fromARGB(70, 150, 50, 50),
+                              strokeColor: Colors.red,
+                              radius: 1000,
+                              strokeWidth: 1,consumeTapEvents: true
+                          )
+                      );
+                    }).toList();
+                    Set<Circle> circles = Set.from(circlesOr);
+                    return Container(
+                      width: MediaQuery.of(context).size.width / 2,
+                      height: MediaQuery.of(context).size.height / 3.5,
+                      child: GoogleMap(
+                        zoomControlsEnabled: true,
+                        zoomGesturesEnabled: true,
+                        rotateGesturesEnabled: true,
+                        scrollGesturesEnabled: true,
+                        tiltGesturesEnabled: true,
+                        trafficEnabled: true,
+                        onMapCreated: _onMapCreated,
+                        mapToolbarEnabled: true,
+                        initialCameraPosition: CameraPosition(
+                          target: _center,
+                          zoom: 10,
+                        ),
+                        circles: circles,
+                      ),
+                    );
+                  }
+                  else if (snapshot.hasError) {
+                    print("${snapshot.error}");
+                    return CircularProgressIndicator();
+                    return Text("${snapshot.error}");
+                  }
+                  return CircularProgressIndicator();
+                },
               ),
               Container(
                 width: MediaQuery.of(context).size.width / 2.2,
-                height: MediaQuery.of(context).size.height / 4,
+                height: MediaQuery.of(context).size.height / 3.5,
                 color: Color.fromRGBO(227, 234, 240, 1),
                 child: SingleChildScrollView(
                   scrollDirection: Axis.vertical,

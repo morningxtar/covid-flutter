@@ -5,9 +5,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 
-Future<FigureCI> futureFigure = fetchFigure();
 
-Widget firstStatistiquePage(BuildContext context) {
+Widget firstStatistiquePage(BuildContext context, futureFigure) {
   ScreenUtil.instance = ScreenUtil.getInstance()..init(context);
   ScreenUtil.instance =
       ScreenUtil(width: 750, height: 1334, allowFontScaling: true);
@@ -283,6 +282,8 @@ Widget firstStatistiquePage(BuildContext context) {
           ),
         );
       } else if (snapshot.hasError) {
+        print("${snapshot.error}");
+        return CircularProgressIndicator();
         return Text("${snapshot.error}");
       }
       return CircularProgressIndicator();
