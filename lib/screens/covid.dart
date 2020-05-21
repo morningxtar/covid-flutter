@@ -9,7 +9,19 @@ ThemeData appTheme = ThemeData(
   fontFamily: 'Oxygen'
 );
 
-class Covid extends StatelessWidget {
+class Covid extends StatefulWidget {
+  @override
+  _CovidState createState() => _CovidState();
+}
+
+class _CovidState extends State<Covid> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([

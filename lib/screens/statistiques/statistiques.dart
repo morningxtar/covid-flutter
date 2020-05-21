@@ -17,29 +17,52 @@ import 'first_stat_slide.dart';
 import 'second_stat_slide.dart';
 import 'third_stat_slide.dart';
 
-class Statistiques extends StatelessWidget {
+class Statistiques extends StatefulWidget {
+  @override
+  _StatistiquesState createState() => _StatistiquesState();
+}
+
+class _StatistiquesState extends State<Statistiques> {
+
   final GlobalKey<ScaffoldState> _globalKey = new GlobalKey<ScaffoldState>();
   SwiperController controller;
   List<SwiperController> controllers;
   List<Widget> widgetList = [];
 
-  Future<FigureCI> futureFigure = fetchFigure();
-  Future<List<FigureGlobals>> futureFigureGlobal = fetchFigureGlobal();
-  Future<FigureSex> futureFigureSex = fetchFigureSex();
-  Future<FigureAge> futureFigureAge = fetchFigureAge();
-  Future<List<Figures>> futureFigures = fetchFigures();
-  List<Circle> circles = [];
+  Future<FigureCI> futureFigure ;
+  Future<List<FigureGlobals>> futureFigureGlobal ;
+  Future<FigureSex> futureFigureSex ;
+  Future<FigureAge> futureFigureAge ;
+  Future<List<Figures>> futureFigures ;
+  List<Circle> circles ;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    futureFigure = fetchFigure();
+    futureFigureGlobal = fetchFigureGlobal();
+    futureFigureSex = fetchFigureSex();
+    futureFigureAge = fetchFigureAge();
+    futureFigures = fetchFigures();
+    circles = [];
+  }
+
+  
+
 
   Widget Statistique(BuildContext context) {
+
+    
+
     ScreenUtil.instance = ScreenUtil.getInstance()..init(context);
     ScreenUtil.instance =
         ScreenUtil(width: 750, height: 1334, allowFontScaling: true);
 
-    return new Scaffold(
+    return Scaffold(
       backgroundColor: Colors.white,
       resizeToAvoidBottomPadding: true,
       body: SizedBox(
-        child: new Swiper(
+        child: Swiper(
           loop: false,
           itemCount: widgetList.length,
           controller: controller,
@@ -50,7 +73,7 @@ class Statistiques extends StatelessWidget {
                   space: 2,
                   color: Colors.grey.shade200)),
           itemBuilder: (BuildContext context, int index) {
-            return widgetList[index];
+            return Center(child:widgetList[index]);
           },
         ),
       ),
@@ -108,6 +131,7 @@ class Statistiques extends StatelessWidget {
                     future: futureFigure,
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
+
                         return header('Point de la situation COVID-19\n' +
                             date);
                       }
@@ -116,7 +140,7 @@ class Statistiques extends StatelessWidget {
                         return CircularProgressIndicator();
                         return Text("${snapshot.error}");
                       }
-                      return CircularProgressIndicator();
+                      return header('Chargement...');
                     },
                   )),
               body: Statistique(context))),
