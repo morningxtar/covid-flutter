@@ -1,6 +1,8 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:covid19stat/models/FigureCI.dart';
 import 'package:covid19stat/screens/appbar.dart';
 import 'package:covid19stat/screens/drawer.dart' as prefix0;
+import 'package:covid19stat/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 

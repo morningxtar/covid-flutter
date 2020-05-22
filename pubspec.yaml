@@ -34,6 +34,7 @@ dependencies:
   shared_preferences: ^0.5.7+2
   dio: ^3.0.9
   mobile_popup: ^1.2.0
+  pull_to_refresh: ^1.5.7
 
 dev_dependencies:
   flutter_test:

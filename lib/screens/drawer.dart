@@ -1,3 +1,4 @@
+import 'package:covid19stat/models/FigureCI.dart';
 import 'package:covid19stat/screens/statistiques/statistiques.dart';
 import 'package:flutter/material.dart';
 

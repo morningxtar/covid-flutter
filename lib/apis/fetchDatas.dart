@@ -16,11 +16,26 @@ import '../constante.dart';
 
 String date;
 
+FigureCI figureTest;
 Future<FigureCI> fetchFigure() async {
   final response = await http.get(apiFigureCI);
   var dio = new Dio();
   final response1 = await dio.get(apiFigureCI);
   date = response1.data['date_update'];
+
+  figureTest = new FigureCI(
+    pays: response1.data['pays'],
+    date_update: response1.data['date_update'],
+    cas_confirme: response1.data['cas_confirme'],
+    cas_deces: response1.data['cas_deces'],
+    cas_gueri: response1.data['cas_gueri'],
+    cas_actif: response1.data['cas_actif'],
+    nombre_prelevement: response1.data['nombre_prelevement'],
+    nouveau_cas_confirme: response1.data['nouveau_cas_confirme'],
+    nouveau_cas_deces: response1.data['nouveau_cas_deces'],
+    nouveau_cas_gueri: response1.data['nouveau_cas_gueri'],
+    nouveau_nombre_prelevement: response1.data['nouveau_nombre_prelevement'],
+  );
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
     // then parse the JSON.
@@ -32,14 +47,37 @@ Future<FigureCI> fetchFigure() async {
   }
 }
 
+List<int> tabGue = new List<int>();
+List<int> tabDec = new List<int>();
+String nombre;
+List<FigureGlobals> futGlob = new List<FigureGlobals>();
 Future<List<FigureGlobals>> fetchFigureGlobal() async {
   final response = await http.get(apiFigureGlobal);
+  var dio = new Dio();
+  final response1 = await dio.get(apiFigureGlobal);
+  nombre = response1.data[3]['nombre_prelevement'];
 
+  if(futGlob.isEmpty){
+    for( var i = 0 ; i <response1.data.length; i++ ) {
+      FigureGlobals futGlo = new FigureGlobals(
+        entite: response1.data[i]['entite'],
+        date_update: response1.data[i]['date_update'],
+        cas_confirme: response1.data[i]['cas_confirme'],
+        cas_deces: response1.data[i]['cas_deces'],
+        cas_gueri: response1.data[i]['cas_gueri'],
+        taux_deces: response1.data[i]['taux_deces'],
+        taux_gueri: response1.data[i]['taux_gueri'],
+        nombre_prelevement: response1.data[i]['nombre_prelevement'].toString(),
+      );
+      futGlob.add(futGlo);
+      tabGue.add(int.parse(response1.data[i]['taux_gueri']));
+      tabDec.add(int.parse(response1.data[i]['taux_deces']));
+    }
+  }
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
     // then parse the JSON.
     List responseJson = json.decode(response.body);
-
     return responseJson.map((m) => new FigureGlobals.fromJson(m)).toList();
   } else {
     // If the server did not return a 200 OK response,
@@ -48,9 +86,16 @@ Future<List<FigureGlobals>> fetchFigureGlobal() async {
   }
 }
 
+FigureSex figureSex;
 Future<FigureSex> fetchFigureSex() async {
   final response = await http.get(apiFigureSex);
-
+  var dio = new Dio();
+  final response1 = await dio.get(apiFigureSex);
+  figureSex = new FigureSex(
+    pays: response1.data['pays'],
+    pourc_nbre_masc: response1.data['pourc_nbre_masc'],
+    pourc_nbre_fem: response1.data['pourc_nbre_fem']
+  );
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
     // then parse the JSON.
@@ -62,9 +107,20 @@ Future<FigureSex> fetchFigureSex() async {
   }
 }
 
+FigureAge figAge;
 Future<FigureAge> fetchFigureAge() async {
   final response = await http.get(apiFigureAge);
-
+  var dio = new Dio();
+  final response1 = await dio.get(apiFigureAge);
+  figAge = new FigureAge(
+    pays: response1.data['pays'],
+    nbre_0_30: response1.data['nbre_0_30'],
+    pourc_nbre_0_30: response1.data['pourc_nbre_0_30'],
+    nbre_31_50: response1.data['nbre_31_50'],
+    pourc_nbre_31_50: response1.data['pourc_nbre_31_50'],
+    nbre_51_plus: response1.data['nbre_51_plus'],
+    pourc_nbre_51_plus: response1.data['pourc_nbre_51_plus'],
+  );
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
     // then parse the JSON.
@@ -83,8 +139,6 @@ Future<List<Figures>> fetchFigures() async {
   final response = await http.get(apiFigures);
   var dio = new Dio();
   final response1 = await dio.get(apiFigures);
-
-  print(response1.data.length);
   
   for( var i = 0 ; i <response1.data.length; i++ ) {
     Figures figure = new Figures(
