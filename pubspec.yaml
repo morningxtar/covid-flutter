@@ -1,5 +1,5 @@
 name: covid19stat
-description: A new Flutter application.
+description: An application to show covid statistiques.
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -29,17 +29,25 @@ dependencies:
   step_progress_indicator: ^0.2.2+5
   google_maps_flutter: ^0.5.27+3
   auto_size_text: ^2.1.0
-  bidirectional_scroll_view: ^0.1.1
   http: ^0.12.1
   shared_preferences: ^0.5.7+2
   dio: ^3.0.9
   mobile_popup: ^1.2.0
   pull_to_refresh: ^1.5.7
+  flutter_launcher_icons: ^0.7.5
+  splashscreen: ^1.2.0
+  share: ^0.6.4+3
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
+  flutter_launcher_icons: ^0.7.5
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/minis.jpg"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -67,6 +75,12 @@ flutter:
     - assets/images/tranche2.jpg
     - assets/images/tranche3.jpg
     - assets/images/drawerhead.jpg
+    - assets/images/logstop.jpg
+    - assets/images/bon1.jpg
+    - assets/images/bon2.jpg
+    - assets/images/bon3.jpg
+    - assets/images/bon4.jpg
+    - assets/images/bon5.jpg
   #  - a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

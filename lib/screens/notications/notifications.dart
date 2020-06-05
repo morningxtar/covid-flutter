@@ -1,5 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:covid19stat/apis/fetchDatas.dart';
 import 'package:covid19stat/models/FigureCI.dart';
+import 'package:covid19stat/models/alert.dart';
 import 'package:covid19stat/screens/appbar.dart';
 import 'package:covid19stat/screens/drawer.dart' as prefix0;
 import 'package:covid19stat/splash_screen.dart';
@@ -9,87 +11,91 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../footer.dart';
 import '../header.dart';
 
-class Notifications extends StatelessWidget {
+class Notifications extends StatefulWidget {
+  @override
+  NotificationsState createState() => NotificationsState();
+}
+
+class NotificationsState extends State<Notifications> {
   // PageController _controller = PageController(
   //   initialPage: 0,
   // );
   double currentPage = 0;
+  Future<List<Alert>> futureAlerts;
+
+  @override
+  void initState() {
+    super.initState();
+    futureAlerts = fetchAlerts();
+  }
 
   Widget notification(BuildContext context) {
     ScreenUtil.instance = ScreenUtil.getInstance()..init(context);
     ScreenUtil.instance =
         ScreenUtil(width: 750, height: 1334, allowFontScaling: true);
+    print(alerts.length);
     return new Scaffold(
       backgroundColor: Colors.white,
       resizeToAvoidBottomPadding: true,
-      body: ListView(
-        children: <Widget>[
-          notif(context),
-          notif(context),
-          notif(context),
-          notif(context),
-          notif(context),
-          notif(context),
-          notif(context),
-        ],
-      ),
+      body: (alerts.isNotEmpty)
+          ? ListView.builder(
+              itemCount: alerts.length,
+              itemBuilder: (context, int index) {
+                return notif(context, alerts[index]);
+              },
+            )
+          : FutureBuilder<List<Alert>>(
+          future: futureAlerts,
+          builder: (context, snapshot) {
+            if(snapshot.hasData){
+              return ListView.builder(
+                itemCount: snapshot.data.length,
+                itemBuilder: (context, int i){
+                  return notif(context, snapshot.data[i]);
+                },
+
+              );
+            }
+            else
+              return Center(child: CircularProgressIndicator());
+          }),
     );
   }
 
-  Widget notif(context) {
+  Widget notif(context, Alert alert) {
     return Card(
       child: Container(
-        height: 130,
+        padding: EdgeInsets.all(5),
         width: MediaQuery.of(context).size.width,
         child: Column(
           children: <Widget>[
-            Text(
-              "Propagation du couvre-feu",
-              style: TextStyle(
-                  color: Colors.orange,
-                  fontWeight: FontWeight.w800,
-                  fontSize: 17),
+            Center(
+              child: Text(
+                alert.title.toString(),
+                style: TextStyle(
+                    color: Colors.orange,
+                    fontWeight: FontWeight.w800,
+                    fontSize: 15),
+              ),
             ),
             SizedBox(
               height: 10,
             ),
-            Container(
-              child: Column(
-                children: <Widget>[
-                  AutoSizeText(
-                    'Le couvre-feu, instauré sur l\'ensemble\n'
-                        'du territoire le 24 mars 2020, est porogé\n'
-                        'pour une nouvelle période allant',
-                  ),
-                  Row(
-                    children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.only(
-                            left: MediaQuery.of(context).size.width / 9,
-                            right: MediaQuery.of(context).size.width / 15),
-                        child: AutoSizeText(
-                          "du 25 avril au 8 mai 2020, de 21H à 5H",
-                          style: TextStyle(
-                              color: Colors.red,
-                              fontWeight: FontWeight.w800,
-                              fontSize: 10),
-                        ),
-                      ),
-                      Container(
-                        width: 20,
-                        height: 20,
-                        child: Icon(
-                          Icons.arrow_drop_down,
-                          size: 15,
-                        ),
-                        decoration: BoxDecoration(
-                            border: Border.all(color: Colors.black),
-                            shape: BoxShape.circle,
-                            color: Color(0xFFffffff)),
-                      )
-                    ],
-                  ),
-                ],
+            Center(
+              child: AutoSizeText(
+                alert.content.toString(),
+              ),
+            ),
+            SizedBox(
+              height: 7,
+            ),
+            Center(
+              child: AutoSizeText(
+                alert.date.toString(),
+                style: TextStyle(
+                    color: Colors.red.shade300,
+                    fontWeight: FontWeight.w800,
+                    fontSize: 15),
               ),
             ),
             SizedBox(

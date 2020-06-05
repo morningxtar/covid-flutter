@@ -1,12 +1,15 @@
 import 'package:covid19stat/apis/fetchDatas.dart';
 import 'package:covid19stat/models/FigureCI.dart';
+import 'package:covid19stat/models/FigureGlobals.dart';
+import 'package:covid19stat/screens/statistiques/second_stat_slide.dart';
+import 'package:covid19stat/screens/statistiques/second_stat_slide.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 
 Widget firstStatistiquePage(
-    BuildContext context, futureFigure, FigureCI figureTest) {
+    BuildContext context, futureFigure, FigureCI figureTest, Future<List<FigureGlobals>> futureFigureGlobal) {
   ScreenUtil.instance = ScreenUtil.getInstance()..init(context);
   ScreenUtil.instance =
       ScreenUtil(width: 750, height: 1334, allowFontScaling: true);
@@ -120,11 +123,81 @@ Widget firstStatistiquePage(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(right: 15),
-                      child: Text(
-                        'Soit un total\n général de :',
-                        textAlign: TextAlign.center,
+                    Container(
+                      padding: EdgeInsets.only(right: 5),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            'Nombre\n d\'échantillons\n prélévés',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                              fontSize: 10,
+                            ),
+                          ),
+                          Container(
+                            width: MediaQuery.of(context).size.width / 4,
+                            height: MediaQuery.of(context).size.height / 7,
+                            decoration: BoxDecoration(
+                                color: Color.fromRGBO(59, 170, 53, 1),
+                                shape: BoxShape.circle),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Image.asset(
+                                  'assets/images/echantil.jpg',
+                                  width: MediaQuery.of(context).size.width / 10,
+                                  height: MediaQuery.of(context).size.height / 13,
+                                ),
+                                (nombre == null)
+                                    ? FutureBuilder<List<FigureGlobals>>(
+                                  future: futureFigureGlobal,
+                                  builder: (context, snapshot) {
+                                    if (snapshot.hasData) {
+                                      return Text(
+                                        snapshot.data[3].nombre_prelevement,
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white,
+                                            fontSize: MediaQuery.of(context)
+                                                .size
+                                                .width /
+                                                35),
+                                      );
+                                    } else if (snapshot.hasError) {
+                                      print("${snapshot.error}");
+                                      return CircularProgressIndicator();
+                                      return Text("${snapshot.error}");
+                                    }
+                                    // By default, show a loading spinner.
+                                    return CircularProgressIndicator();
+                                  },
+                                )
+                                    : Text(
+                                  nombre,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                      fontSize:
+                                      MediaQuery.of(context).size.width / 35),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Text(
+                      'Nombre\n de personnes\n en traitement',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                        fontSize: 10,
                       ),
                     ),
                     Container(
@@ -396,11 +469,71 @@ Widget firstStatistiquePage(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.only(right: 15),
-                            child: Text(
-                              'Soit un total\n général de :',
-                              textAlign: TextAlign.center,
+                          Container(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Text(
+                                  'Nombre d\'échantillons prélévés',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
+                                    fontSize: 10,
+                                  ),
+                                ),
+                                Container(
+                                  width: MediaQuery.of(context).size.width / 4,
+                                  height: MediaQuery.of(context).size.height / 7,
+                                  decoration: BoxDecoration(
+                                      color: Color.fromRGBO(59, 170, 53, 1),
+                                      shape: BoxShape.circle),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Image.asset(
+                                        'assets/images/echantil.jpg',
+                                        width: MediaQuery.of(context).size.width / 10,
+                                        height: MediaQuery.of(context).size.height / 13,
+                                      ),
+                                      (nombre == null)
+                                          ? FutureBuilder<List<FigureGlobals>>(
+                                        future: futureFigureGlobal,
+                                        builder: (context, snapshot) {
+                                          if (snapshot.hasData) {
+                                            return Text(
+                                              snapshot.data[3].nombre_prelevement,
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.white,
+                                                  fontSize: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                      35),
+                                            );
+                                          } else if (snapshot.hasError) {
+                                            print("${snapshot.error}");
+                                            return CircularProgressIndicator();
+                                            return Text("${snapshot.error}");
+                                          }
+                                          // By default, show a loading spinner.
+                                          return CircularProgressIndicator();
+                                        },
+                                      )
+                                          : Text(
+                                        nombre,
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white,
+                                            fontSize:
+                                            MediaQuery.of(context).size.width / 35),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                           Container(

@@ -304,60 +304,30 @@ Widget thirdStatistiquePage(BuildContext context,
         Padding(
           padding: EdgeInsets.only(top: 5, bottom: 3),
           child: Text(
-            'Répartition géographique des cas confirmés',
+            'Point sur les districts',
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
         Container(
           padding: EdgeInsets.only(left: 5, right: 5),
-          child: Row(
-            children: <Widget>[
-              SingleChildScrollView(
-                child: Container(
-                  width: MediaQuery.of(context).size.width / 2,
-                  height: MediaQuery.of(context).size.height / 3.5,
-                  child: GoogleMap(
-                      zoomControlsEnabled: true,
-                      zoomGesturesEnabled: true,
-                      rotateGesturesEnabled: true,
-                      scrollGesturesEnabled: true,
-                      gestureRecognizers: Set()
-                        ..add(Factory<PanGestureRecognizer>(() => PanGestureRecognizer()))
-                        ..add(Factory<VerticalDragGestureRecognizer>(
-                                () => VerticalDragGestureRecognizer())),
-                      tiltGesturesEnabled: true,
-                      trafficEnabled: true,
-                      onMapCreated: _onMapCreated,
-                      mapToolbarEnabled: true,
-                      initialCameraPosition: CameraPosition(
-                        target: _center,
-                        zoom: 9,
-                      ),
-                      circles: circle,
-                      markers: marker),
+          child: Container(
+            height: MediaQuery.of(context).size.height / 3.5,
+            color: Color.fromRGBO(227, 234, 240, 1),
+            child: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: AutoSizeText(
+                  'Au 29 Avril 2020, 16 districts sur les 29 districts sanitaires\n affectés depuis'
+                  ' le debut de la pandemie, sont actifs :\n Les 10 districts d`\'Abidjan\n'
+                  '- Adiaké\n - Agboville\n - Akoupé\n - Duékoué\n - GrandBassam\n - San Pédro'
+                  '\n\n 95% des cas confirmés sont dans la région d\'Abidjan'
+                  '\n\n 39% dans cas confirmés sont localisés dans le district\n de Cocody Bingerville',
+                  style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.width / 30),
                 ),
               ),
-              Container(
-                width: MediaQuery.of(context).size.width / 2.2,
-                height: MediaQuery.of(context).size.height / 3.5,
-                color: Color.fromRGBO(227, 234, 240, 1),
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.vertical,
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: AutoSizeText(
-                      'Au 29 Avril 2020, 16 districts sur les\n 29 districts sanitaires affectés depuis\n'
-                      ' le debut de la pandemie, sont actifs :\n Les 10 districts d`\'Abidjan\n'
-                      '- Adiaké\n - Agboville\n - Akoupé\n - Duékoué\n - GrandBassam\n - San Pédro'
-                      '\n\n 95% des cas confirmés sont dans la\n région d\'Abidjan'
-                      '\n\n 39% dans cas confirmés sont localisés\n dans le disstrict de Cocody Bingerville',
-                      style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.width / 30),
-                    ),
-                  ),
-                ),
-              )
-            ],
+            ),
           ),
         ),
         Padding(

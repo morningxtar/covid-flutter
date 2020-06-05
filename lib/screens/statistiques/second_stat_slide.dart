@@ -418,242 +418,182 @@ Widget secondStatistiquePage(
             ],
           ),
         ),
+        SizedBox(height: 15,),
         Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Expanded(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Text('Données détaillées'),
-                  Container(
-                    width: MediaQuery.of(context).size.width / 4,
-                    height: MediaQuery.of(context).size.height / 7,
-                    decoration: BoxDecoration(
-                        color: Color.fromRGBO(59, 170, 53, 1),
-                        shape: BoxShape.circle),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Image.asset(
-                          'assets/images/echantil.jpg',
-                          width: MediaQuery.of(context).size.width / 10,
-                          height: MediaQuery.of(context).size.height / 13,
-                        ),
-                        (nombre == null)
-                            ? FutureBuilder<List<FigureGlobals>>(
-                                future: futureFigureGlobal,
-                                builder: (context, snapshot) {
-                                  if (snapshot.hasData) {
-                                    return Text(
-                                      snapshot.data[3].nombre_prelevement,
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white,
-                                          fontSize: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              35),
-                                    );
-                                  } else if (snapshot.hasError) {
-                                    print("${snapshot.error}");
-                                    return CircularProgressIndicator();
-                                    return Text("${snapshot.error}");
-                                  }
-                                  // By default, show a loading spinner.
+                  Text(
+                    'Répartition des cas confirmés par genre',
+                  ),
+                  SizedBox(height: 10,),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      (figureSex == null)
+                          ? FutureBuilder<FigureSex>(
+                              future: futureFigureSex,
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData) {
+                                  return Row(
+
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: <Widget>[
+                                          Image.asset(
+                                            'assets/images/standorange.jpg',
+                                            width:
+                                                MediaQuery.of(context).size.width /
+                                                    6,
+                                            height:
+                                                MediaQuery.of(context).size.height /
+                                                    9,
+                                          )
+                                        ],
+                                      ),
+                                      Column(
+                                        children: <Widget>[
+                                          Text(
+                                            snapshot.data.pourc_nbre_masc + '%',
+                                            style: TextStyle(
+                                                color:
+                                                    Color.fromRGBO(239, 125, 5, 1)),
+                                          ),
+                                          Text(
+                                            'Hommes',
+                                            style: TextStyle(
+                                                color:
+                                                    Color.fromRGBO(239, 125, 5, 1)),
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  );
+                                } else if (snapshot.hasError) {
+                                  print("${snapshot.error}");
                                   return CircularProgressIndicator();
-                                },
-                              )
-                            : Text(
-                                nombre,
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
-                                    fontSize:
-                                        MediaQuery.of(context).size.width / 35),
-                              ),
-                      ],
-                    ),
-                  ),
-                  Text(
-                    'Nombre`\n d\'échantillons\n prélévés',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                      fontSize: 10,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    'Répartition des cas\n confirmés par genre',
-                  ),
-                  (figureSex == null)
-                      ? FutureBuilder<FigureSex>(
-                          future: futureFigureSex,
-                          builder: (context, snapshot) {
-                            if (snapshot.hasData) {
-                              return Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                      Image.asset(
-                                        'assets/images/standorange.jpg',
-                                        width:
-                                            MediaQuery.of(context).size.width /
-                                                10,
-                                        height:
-                                            MediaQuery.of(context).size.height /
-                                                13,
-                                      )
-                                    ],
-                                  ),
-                                  Column(
-                                    children: <Widget>[
-                                      Text(
-                                        snapshot.data.pourc_nbre_masc + '%',
-                                        style: TextStyle(
-                                            color:
-                                                Color.fromRGBO(239, 125, 5, 1)),
-                                      ),
-                                      Text(
-                                        'Hommes',
-                                        style: TextStyle(
-                                            color:
-                                                Color.fromRGBO(239, 125, 5, 1)),
-                                      ),
-                                    ],
-                                  )
-                                ],
-                              );
-                            } else if (snapshot.hasError) {
-                              print("${snapshot.error}");
-                              return CircularProgressIndicator();
-                              return Text("${snapshot.error}");
-                            }
-                            // By default, show a loading spinner.
-                            return CircularProgressIndicator();
-                          },
-                        )
-                      : Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Column(
+                                  return Text("${snapshot.error}");
+                                }
+                                // By default, show a loading spinner.
+                                return CircularProgressIndicator();
+                              },
+                            )
+                          : Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
-                                Image.asset(
-                                  'assets/images/standorange.jpg',
-                                  width: MediaQuery.of(context).size.width / 10,
-                                  height:
-                                      MediaQuery.of(context).size.height / 13,
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Image.asset(
+                                      'assets/images/standorange.jpg',
+                                      width: MediaQuery.of(context).size.width / 6,
+                                      height:
+                                          MediaQuery.of(context).size.height / 9,
+                                    )
+                                  ],
+                                ),
+                                Column(
+                                  children: <Widget>[
+                                    Text(
+                                      figureSex.pourc_nbre_masc + '%',
+                                      style: TextStyle(
+                                          color: Color.fromRGBO(239, 125, 5, 1)),
+                                    ),
+                                    Text(
+                                      'Hommes',
+                                      style: TextStyle(
+                                          color: Color.fromRGBO(239, 125, 5, 1)),
+                                    ),
+                                  ],
                                 )
                               ],
                             ),
-                            Column(
-                              children: <Widget>[
-                                Text(
-                                  figureSex.pourc_nbre_masc + '%',
-                                  style: TextStyle(
-                                      color: Color.fromRGBO(239, 125, 5, 1)),
-                                ),
-                                Text(
-                                  'Hommes',
-                                  style: TextStyle(
-                                      color: Color.fromRGBO(239, 125, 5, 1)),
-                                ),
-                              ],
-                            )
-                          ],
-                        ),
-                  (figureSex == null)
-                      ? FutureBuilder<FigureSex>(
-                          future: futureFigureSex,
-                          builder: (context, snapshot) {
-                            if (snapshot.hasData) {
-                              return Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Column(
+                      (figureSex == null)
+                          ? FutureBuilder<FigureSex>(
+                              future: futureFigureSex,
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData) {
+                                  return Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
-                                      Image.asset(
-                                        'assets/images/standorangefemale.jpg',
-                                        width:
-                                            MediaQuery.of(context).size.width /
-                                                10,
-                                        height:
-                                            MediaQuery.of(context).size.height /
-                                                13,
+                                      Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: <Widget>[
+                                          Image.asset(
+                                            'assets/images/standorangefemale.jpg',
+                                            width:
+                                                MediaQuery.of(context).size.width /
+                                                    6,
+                                            height:
+                                                MediaQuery.of(context).size.height /
+                                                    9,
+                                          )
+                                        ],
+                                      ),
+                                      Column(
+                                        children: <Widget>[
+                                          Text(
+                                            snapshot.data.pourc_nbre_fem + '%',
+                                            style: TextStyle(
+                                                color:
+                                                    Color.fromRGBO(239, 125, 5, 1)),
+                                          ),
+                                          Text(
+                                            'Femmes',
+                                            style: TextStyle(
+                                                color:
+                                                    Color.fromRGBO(239, 125, 5, 1)),
+                                          ),
+                                        ],
                                       )
                                     ],
-                                  ),
-                                  Column(
-                                    children: <Widget>[
-                                      Text(
-                                        snapshot.data.pourc_nbre_fem + '%',
-                                        style: TextStyle(
-                                            color:
-                                                Color.fromRGBO(239, 125, 5, 1)),
-                                      ),
-                                      Text(
-                                        'Femmes',
-                                        style: TextStyle(
-                                            color:
-                                                Color.fromRGBO(239, 125, 5, 1)),
-                                      ),
-                                    ],
-                                  )
-                                ],
-                              );
-                            } else if (snapshot.hasError) {
-                              print("${snapshot.error}");
-                              return CircularProgressIndicator();
-                              return Text("${snapshot.error}");
-                            }
-                            // By default, show a loading spinner.
-                            return CircularProgressIndicator();
-                          },
-                        )
-                      : Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Column(
+                                  );
+                                } else if (snapshot.hasError) {
+                                  print("${snapshot.error}");
+                                  return CircularProgressIndicator();
+                                  return Text("${snapshot.error}");
+                                }
+                                // By default, show a loading spinner.
+                                return CircularProgressIndicator();
+                              },
+                            )
+                          : Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
-                                Image.asset(
-                                  'assets/images/standorangefemale.jpg',
-                                  width: MediaQuery.of(context).size.width / 10,
-                                  height:
-                                      MediaQuery.of(context).size.height / 13,
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Image.asset(
+                                      'assets/images/standorangefemale.jpg',
+                                      width: MediaQuery.of(context).size.width / 6,
+                                      height:
+                                          MediaQuery.of(context).size.height / 9,
+                                    )
+                                  ],
+                                ),
+                                Column(
+                                  children: <Widget>[
+                                    Text(
+                                      figureSex.pourc_nbre_fem + '%',
+                                      style: TextStyle(
+                                          color: Color.fromRGBO(239, 125, 5, 1)),
+                                    ),
+                                    Text(
+                                      'Femmes',
+                                      style: TextStyle(
+                                          color: Color.fromRGBO(239, 125, 5, 1)),
+                                    ),
+                                  ],
                                 )
                               ],
                             ),
-                            Column(
-                              children: <Widget>[
-                                Text(
-                                  figureSex.pourc_nbre_fem + '%',
-                                  style: TextStyle(
-                                      color: Color.fromRGBO(239, 125, 5, 1)),
-                                ),
-                                Text(
-                                  'Femmes',
-                                  style: TextStyle(
-                                      color: Color.fromRGBO(239, 125, 5, 1)),
-                                ),
-                              ],
-                            )
-                          ],
-                        ),
+                    ],
+                  ),
                 ],
               ),
             ),

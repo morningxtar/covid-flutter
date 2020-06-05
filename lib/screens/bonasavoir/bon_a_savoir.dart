@@ -13,31 +13,17 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-import '../../splash_screen.dart';
-import 'first_stat_slide.dart';
-import 'second_stat_slide.dart';
-import 'third_stat_slide.dart';
 
-class Statistiques extends StatefulWidget {
+class BonASavoir extends StatefulWidget {
   @override
-  _StatistiquesState createState() => _StatistiquesState();
+  BonASavoirState createState() => BonASavoirState();
 }
 
-class _StatistiquesState extends State<Statistiques> {
+class BonASavoirState extends State<BonASavoir> {
   final GlobalKey<ScaffoldState> _globalKey = new GlobalKey<ScaffoldState>();
   SwiperController controller;
   List<SwiperController> controllers;
   List<Widget> widgetList = [];
-
-  Future<FigureCI> futureFigure;
-
-  Future<List<FigureGlobals>> futureFigureGlobal;
-
-  Future<FigureSex> futureFigureSex;
-
-  Future<FigureAge> futureFigureAge;
-
-  Future<List<Figures>> futureFigures;
 
 
   @override
@@ -45,15 +31,18 @@ class _StatistiquesState extends State<Statistiques> {
     // TODO: implement initState
     super.initState();
     setState(() {
-      futureFigure = fetchFigure();
-      futureFigureGlobal = fetchFigureGlobal();
-      futureFigureSex = fetchFigureSex();
-      futureFigureAge = fetchFigureAge();
-      futureFigures = fetchFigures();
     });
   }
 
-  Widget Statistique(BuildContext context) {
+  Widget savoir(String title, String bon){
+    return Scaffold(
+      appBar: PreferredSize(
+          preferredSize: Size.fromHeight(50.0),
+          child: header(title)),
+        body: Center(child: Image.asset(bon)));
+  }
+
+  Widget savoirs(BuildContext context) {
     ScreenUtil.instance = ScreenUtil.getInstance()..init(context);
     ScreenUtil.instance =
         ScreenUtil(width: 750, height: 1334, allowFontScaling: true);
@@ -73,7 +62,7 @@ class _StatistiquesState extends State<Statistiques> {
                   space: 2,
                   color: Colors.grey.shade200)),
           itemBuilder: (BuildContext context, int index) {
-            return Center(child: widgetList[index]);
+            return widgetList[index];
           },
         ),
       ),
@@ -83,15 +72,15 @@ class _StatistiquesState extends State<Statistiques> {
   @override
   Widget build(BuildContext context) {
 
-    print(date);
-    widgetList.add(firstStatistiquePage(context, futureFigure, figureTest, futureFigureGlobal));
-    widgetList.add(
-        secondStatistiquePage(context, futureFigureGlobal, futureFigureSex));
-    widgetList.add(thirdStatistiquePage(
-        context, futureFigureAge, figures));
+    widgetList.add(savoir('Symptômes du coronavirus','assets/images/bon1.jpg'));
+    widgetList.add(savoir('Mesure de prévention\n contre le coronavirus', 'assets/images/bon2.jpg'));
+    widgetList.add(savoir('Protégeons-nous contre\n le coronavirus','assets/images/bon3.jpg'));
+    widgetList.add(savoir('Le lavage des mains en 10 étapes','assets/images/bon4.jpg'));
+    widgetList.add(savoir('Comment porter un masque médical\n en toute sécurité','assets/images/bon5.jpg'));
+
     return new Scaffold(
       key: _globalKey,
-      appBar: appbar('Statistique'),
+      appBar: appbar('Bon à Savoir'),
       bottomNavigationBar: Container(
           height: MediaQuery.of(context).size.height / 28,
           color: Colors.white,
@@ -99,22 +88,7 @@ class _StatistiquesState extends State<Statistiques> {
       drawer: prefix0.drawer(context),
       body: Scaffold(
           appBar: headerLogo(context),
-          body: Scaffold(
-              appBar: PreferredSize(
-                  preferredSize: Size.fromHeight(50.0),
-                  child: (date != null)
-                      ? header('Point de la situation COVID-19\n' + date)
-                      : FutureBuilder<FigureCI>(
-                          future: futureFigure,
-                          builder: (context, snapshot) {
-                            if (snapshot.hasData) {
-                              return header('Point de la situation COVID-19\n' +
-                                  snapshot.data.date_update);
-                            } else
-                              return header('Chargement ...');
-                          },
-                        )),
-              body: Statistique(context))),
+          body: savoirs(context)),
     );
   }
 }

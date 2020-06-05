@@ -6,6 +6,7 @@ import 'package:covid19stat/models/FigureCI.dart';
 import 'package:covid19stat/models/FigureGlobals.dart';
 import 'package:covid19stat/models/FigureSex.dart';
 import 'package:covid19stat/models/Figures.dart';
+import 'package:covid19stat/models/alert.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -164,8 +165,31 @@ Future<List<Figures>> fetchFigures() async {
   }
 }
 
-void test() {
-  print(figures);
+List<Alert> alerts = new List<Alert>();
+
+Future<List<Alert>> fetchAlerts() async {
+  final response = await http.get(apiAlerts);
+  var dio = new Dio();
+  final response1 = await dio.get(apiAlerts);
+  for( var i = 0 ; i <response1.data.length; i++ ) {
+    Alert alert = new Alert(
+        date: response1.data[i]['date'],
+        title: response1.data[i]['title'],
+        content: response1.data[i]['content']
+    );
+    alerts.add(alert);
+  }
+
+  if (response.statusCode == 200) {
+    // If the server did return a 200 OK response,
+    // then parse the JSON.
+    List responseJson = json.decode(response.body);
+    return responseJson.map((m) => new Alert.fromJson(m)).toList();
+  } else {
+    // If the server did not return a 200 OK response,
+    // then throw an exception.
+    throw Exception('Failed to load');
+  }
 }
 
 getMaxTauxGueri(List<FigureGlobals> tabTaux) {
